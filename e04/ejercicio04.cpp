@@ -224,7 +224,7 @@ int main(int argc, char **argv) {
 
 		// Triangle
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_POINTS, 0, d->nVertices);
+		glDrawArrays(GL_TRIANGLES, 0, d->nVertices);
 
 		// Slider
 		slider_shader.use();

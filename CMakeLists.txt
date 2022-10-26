@@ -134,3 +134,23 @@ add_custom_command(
    TARGET ejercicio04 POST_BUILD
    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/ejercicio04${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/e04/"
 )
+###############################################################################
+# EJERCICIO 5
+add_executable(ejercicio05
+  e05/ejercicio05.cpp
+  common/shader.cpp
+  common/shader.hpp
+  )
+target_link_libraries(ejercicio05
+    ${ALL_LIBS}
+)
+
+target_include_directories(ejercicio05 PUBLIC
+  "${PROJECT_BINARY_DIR}"
+  "${PROJECT_SOURCE_DIR}/common"
+  )
+
+add_custom_command(
+   TARGET ejercicio05 POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/ejercicio05${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/e05/"
+)

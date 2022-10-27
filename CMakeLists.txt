@@ -3,6 +3,7 @@ project (EjerciciosGraficas)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
+find_package(Freetype REQUIRED)
 
 if( CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR )
     message( FATAL_ERROR "Please select another Build Directory ! (and give it a clever name, like bin_Visual2012_64bits/)" )
@@ -183,11 +184,13 @@ add_executable(ejercicio07
   )
 target_link_libraries(ejercicio07
     ${ALL_LIBS}
+    ${FREETYPE_LIBRARIES}
 )
 
 target_include_directories(ejercicio07 PUBLIC
   "${PROJECT_BINARY_DIR}"
   "${PROJECT_SOURCE_DIR}/common"
+  "${FREETYPE_INCLUDE_DIRS}"
   )
 
 add_custom_command(

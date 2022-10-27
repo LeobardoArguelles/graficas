@@ -758,6 +758,8 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DOXYGEN_EXECUTABLE
 DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
+//Details about finding Freetype
+FIND_PACKAGE_MESSAGE_DETAILS_Freetype:INTERNAL=[/usr/lib/libfreetype.so][/usr/include/freetype2][v2.12.1()]
 //Details about finding GLUT
 FIND_PACKAGE_MESSAGE_DETAILS_GLUT:INTERNAL=[1][v()]
 //Details about finding OpenGL

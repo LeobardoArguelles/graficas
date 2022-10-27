@@ -274,7 +274,7 @@ int main(int argc, char **argv) {
 }
 
 void divideTetra(vec3 a, vec3 b, vec3 c, vec3 d, int count, GLfloat vertices[],
-int start, int Ndivisions) {
+int start, int Ndivisions)  {
 	if (count == 0)
 	{
 		tetra(a, b, c, d, vertices, start);

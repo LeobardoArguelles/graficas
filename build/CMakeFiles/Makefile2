@@ -68,6 +68,7 @@ all: CMakeFiles/ejercicio02.dir/all
 all: CMakeFiles/ejercicio03.dir/all
 all: CMakeFiles/ejercicio04.dir/all
 all: CMakeFiles/ejercicio05.dir/all
+all: CMakeFiles/ejercicio06.dir/all
 all: external/all
 all: common/all
 .PHONY : all
@@ -83,6 +84,7 @@ clean: CMakeFiles/ejercicio02.dir/clean
 clean: CMakeFiles/ejercicio03.dir/clean
 clean: CMakeFiles/ejercicio04.dir/clean
 clean: CMakeFiles/ejercicio05.dir/clean
+clean: CMakeFiles/ejercicio06.dir/clean
 clean: external/clean
 clean: common/clean
 .PHONY : clean
@@ -346,12 +348,12 @@ CMakeFiles/ejercicio01.dir/all: external/CMakeFiles/GLEW_1130.dir/all
 CMakeFiles/ejercicio01.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio01.dir/build.make CMakeFiles/ejercicio01.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio01.dir/build.make CMakeFiles/ejercicio01.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=76 "Built target ejercicio01"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target ejercicio01"
 .PHONY : CMakeFiles/ejercicio01.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ejercicio01.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ejercicio01.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : CMakeFiles/ejercicio01.dir/rule
@@ -373,12 +375,12 @@ CMakeFiles/ejercicio02.dir/all: external/CMakeFiles/GLEW_1130.dir/all
 CMakeFiles/ejercicio02.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio02.dir/build.make CMakeFiles/ejercicio02.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio02.dir/build.make CMakeFiles/ejercicio02.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=77 "Built target ejercicio02"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=76 "Built target ejercicio02"
 .PHONY : CMakeFiles/ejercicio02.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ejercicio02.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ejercicio02.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : CMakeFiles/ejercicio02.dir/rule
@@ -400,12 +402,12 @@ CMakeFiles/ejercicio03.dir/all: external/CMakeFiles/GLEW_1130.dir/all
 CMakeFiles/ejercicio03.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio03.dir/build.make CMakeFiles/ejercicio03.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio03.dir/build.make CMakeFiles/ejercicio03.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=78 "Built target ejercicio03"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=77 "Built target ejercicio03"
 .PHONY : CMakeFiles/ejercicio03.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ejercicio03.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ejercicio03.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : CMakeFiles/ejercicio03.dir/rule
@@ -427,7 +429,7 @@ CMakeFiles/ejercicio04.dir/all: external/CMakeFiles/GLEW_1130.dir/all
 CMakeFiles/ejercicio04.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio04.dir/build.make CMakeFiles/ejercicio04.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio04.dir/build.make CMakeFiles/ejercicio04.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target ejercicio04"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=78 "Built target ejercicio04"
 .PHONY : CMakeFiles/ejercicio04.dir/all
 
 # Build rule for subdir invocation for target.
@@ -459,7 +461,7 @@ CMakeFiles/ejercicio05.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ejercicio05.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ejercicio05.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : CMakeFiles/ejercicio05.dir/rule
@@ -474,18 +476,45 @@ CMakeFiles/ejercicio05.dir/clean:
 .PHONY : CMakeFiles/ejercicio05.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/ejercicio06.dir
+
+# All Build rule for target.
+CMakeFiles/ejercicio06.dir/all: external/CMakeFiles/GLEW_1130.dir/all
+CMakeFiles/ejercicio06.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio06.dir/build.make CMakeFiles/ejercicio06.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio06.dir/build.make CMakeFiles/ejercicio06.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target ejercicio06"
+.PHONY : CMakeFiles/ejercicio06.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ejercicio06.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ejercicio06.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
+.PHONY : CMakeFiles/ejercicio06.dir/rule
+
+# Convenience name for target.
+ejercicio06: CMakeFiles/ejercicio06.dir/rule
+.PHONY : ejercicio06
+
+# clean rule for target.
+CMakeFiles/ejercicio06.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio06.dir/build.make CMakeFiles/ejercicio06.dir/clean
+.PHONY : CMakeFiles/ejercicio06.dir/clean
+
+#=============================================================================
 # Target rules for target external/CMakeFiles/GLEW_1130.dir
 
 # All Build rule for target.
 external/CMakeFiles/GLEW_1130.dir/all:
 	$(MAKE) $(MAKESILENT) -f external/CMakeFiles/GLEW_1130.dir/build.make external/CMakeFiles/GLEW_1130.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/CMakeFiles/GLEW_1130.dir/build.make external/CMakeFiles/GLEW_1130.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=36 "Built target GLEW_1130"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target GLEW_1130"
 .PHONY : external/CMakeFiles/GLEW_1130.dir/all
 
 # Build rule for subdir invocation for target.
 external/CMakeFiles/GLEW_1130.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/CMakeFiles/GLEW_1130.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/CMakeFiles/GLEW_1130.dir/rule
@@ -584,12 +613,12 @@ external/glfw-3.1.2/src/CMakeFiles/glfw.dir/clean:
 external/glfw-3.1.2/examples/CMakeFiles/boing.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/examples/CMakeFiles/boing.dir/build.make external/glfw-3.1.2/examples/CMakeFiles/boing.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/examples/CMakeFiles/boing.dir/build.make external/glfw-3.1.2/examples/CMakeFiles/boing.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target boing"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=73 "Built target boing"
 .PHONY : external/glfw-3.1.2/examples/CMakeFiles/boing.dir/all
 
 # Build rule for subdir invocation for target.
 external/glfw-3.1.2/examples/CMakeFiles/boing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/glfw-3.1.2/examples/CMakeFiles/boing.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/glfw-3.1.2/examples/CMakeFiles/boing.dir/rule
@@ -662,12 +691,12 @@ external/glfw-3.1.2/examples/CMakeFiles/heightmap.dir/clean:
 external/glfw-3.1.2/examples/CMakeFiles/particles.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/examples/CMakeFiles/particles.dir/build.make external/glfw-3.1.2/examples/CMakeFiles/particles.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/examples/CMakeFiles/particles.dir/build.make external/glfw-3.1.2/examples/CMakeFiles/particles.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=91,92 "Built target particles"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=92 "Built target particles"
 .PHONY : external/glfw-3.1.2/examples/CMakeFiles/particles.dir/all
 
 # Build rule for subdir invocation for target.
 external/glfw-3.1.2/examples/CMakeFiles/particles.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/glfw-3.1.2/examples/CMakeFiles/particles.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/glfw-3.1.2/examples/CMakeFiles/particles.dir/rule
@@ -818,12 +847,12 @@ external/glfw-3.1.2/tests/CMakeFiles/events.dir/clean:
 external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/build.make external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/build.make external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target msaa"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=91 "Built target msaa"
 .PHONY : external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/all
 
 # Build rule for subdir invocation for target.
 external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/glfw-3.1.2/tests/CMakeFiles/msaa.dir/rule
@@ -1000,12 +1029,12 @@ external/glfw-3.1.2/tests/CMakeFiles/reopen.dir/clean:
 external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/all: external/glfw-3.1.2/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/build.make external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/build.make external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target cursor"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=75 "Built target cursor"
 .PHONY : external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/all
 
 # Build rule for subdir invocation for target.
 external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/glfw-3.1.2/tests/CMakeFiles/cursor.dir/rule
@@ -1208,12 +1237,12 @@ external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/clean:
 external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/all: external/assimp-3.0.1270/contrib/zlib/CMakeFiles/zlib.dir/all
 	$(MAKE) $(MAKESILENT) -f external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/build.make external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/build.make external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73 "Built target assimp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72 "Built target assimp"
 .PHONY : external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/all
 
 # Build rule for subdir invocation for target.
 external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 38
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 37
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/assimp-3.0.1270/code/CMakeFiles/assimp.dir/rule
@@ -1312,12 +1341,12 @@ external/bullet-2.81-rev2613/src/BulletDynamics/CMakeFiles/BulletDynamics.dir/cl
 external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/all:
 	$(MAKE) $(MAKESILENT) -f external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/build.make external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/build.make external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=37,38 "Built target LinearMath"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=36,37,38 "Built target LinearMath"
 .PHONY : external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/all
 
 # Build rule for subdir invocation for target.
 external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/rule
@@ -1338,12 +1367,12 @@ external/bullet-2.81-rev2613/src/LinearMath/CMakeFiles/LinearMath.dir/clean:
 common/CMakeFiles/common.dir/all:
 	$(MAKE) $(MAKESILENT) -f common/CMakeFiles/common.dir/build.make common/CMakeFiles/common.dir/depend
 	$(MAKE) $(MAKESILENT) -f common/CMakeFiles/common.dir/build.make common/CMakeFiles/common.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num=75 "Built target common"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles --progress-num= "Built target common"
 .PHONY : common/CMakeFiles/common.dir/all
 
 # Build rule for subdir invocation for target.
 common/CMakeFiles/common.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 common/CMakeFiles/common.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles 0
 .PHONY : common/CMakeFiles/common.dir/rule

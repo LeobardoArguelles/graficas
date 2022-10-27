@@ -34,8 +34,7 @@ int main(int argc, char **argv) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "Ejercicio 5", nullptr, nullptr);
-	int* test = new int;
+	GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "Ejercicio 6", nullptr, nullptr);
 
 	if (!window) {
 		return -1;
@@ -47,6 +46,9 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
+	// Hay que activarlo DESPUÉS de tener el contexto de la ventana
+	glEnable(GL_DEPTH_TEST);
+
 	// END BOILERPLATE
 
 	Shader shader("./shader.vs", "./shader.fs");
@@ -54,6 +56,7 @@ int main(int argc, char **argv) {
 	// 8 vértices, 6 datos por cada uno (3 posición, 3 color)
 	int nData = 8*6;
 	GLfloat vertices[nData];
+	int counter = 0;
 	for (int i = 0; i < 2; i++) {
 		float x = 0, y = 0, z = 0;
 		x = (i & 1) ? -0.5 : 0.5;
@@ -65,9 +68,12 @@ int main(int argc, char **argv) {
 				vertices[idx] = x;
 				vertices[idx+1] = y;
 				vertices[idx+2] = z;
-				vertices[idx+3] = abs(x);
-				vertices[idx+4] = abs(y);
-				vertices[idx+5] = abs(y);
+				// Asignar color de acuerdo al número de vértice
+				// Ej: 1 = 001, 5 = 101, 7 = 111
+				vertices[idx+3] = counter % 2;
+				vertices[idx+4] = (int)floor(counter/2) % 2;
+				vertices[idx+5] = (int)floor(counter/4) % 2;
+				counter++;
 			}
 		}
 	}
@@ -131,7 +137,7 @@ int main(int argc, char **argv) {
 
 	view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
 	projection = glm::perspective(glm::radians(45.0f), 800.0f / (float)W_HEIGHT, 0.1f, 100.0f);
-
+	model = glm::rotate(model, glm::radians(35.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	// retrieve the matrix uniform locations
 	unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
 	unsigned int viewLoc  = glGetUniformLocation(shader.ID, "view");
@@ -144,23 +150,22 @@ int main(int argc, char **argv) {
 		std::cout << x << std::endl;
 	};
 
+	float x = 0;
 	while(!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
+		model = glm::rotate(model, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.use();
-	model = glm::rotate(model, glm::radians(0.5f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 		shader.setMat4("projection", projection);
 
 		// Triangle
 		glBindVertexArray(VAO);
-		glEnableClientState(GL_COLOR_ARRAY);
-		glEnableClientState(GL_VERTEX_ARRAY);
 		glDrawElements(GL_TRIANGLES, nIndices,
 					   GL_UNSIGNED_INT, 0);
 

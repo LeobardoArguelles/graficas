@@ -531,4 +531,15 @@ CMakeFiles/ejercicio05.dir/e05/ejercicio05.cpp.o
  /usr/include/c++/12.2.0/bits/fstream.tcc
  /usr/include/c++/12.2.0/sstream
  /usr/include/c++/12.2.0/bits/sstream.tcc
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/matrix_transform.hpp
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/constants.hpp
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/constants.inl
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/matrix_transform.inl
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/type_ptr.hpp
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/quaternion.hpp
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/quaternion.inl
+ /usr/include/c++/12.2.0/cstring
+ /usr/include/string.h
+ /usr/include/strings.h
+ /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/type_ptr.inl
 

@@ -528,8 +528,31 @@ CMakeFiles/ejercicio05.dir/e05/ejercicio05.cpp.o: /home/larguelles/school/atitul
   /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++io.h \
   /usr/include/c++/12.2.0/bits/fstream.tcc \
   /usr/include/c++/12.2.0/sstream \
-  /usr/include/c++/12.2.0/bits/sstream.tcc
+  /usr/include/c++/12.2.0/bits/sstream.tcc \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/matrix_transform.hpp \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/constants.hpp \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/constants.inl \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/matrix_transform.inl \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/type_ptr.hpp \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/quaternion.hpp \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/quaternion.inl \
+  /usr/include/c++/12.2.0/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/type_ptr.inl
 
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/type_ptr.inl:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/quaternion.hpp:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/type_ptr.hpp:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/matrix_transform.inl:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/constants.inl:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/matrix_transform.hpp:
 
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/detail/func_integer.hpp:
 
@@ -645,6 +668,8 @@ CMakeFiles/ejercicio05.dir/e05/ejercicio05.cpp.o: /home/larguelles/school/atitul
 
 /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/gthr.h:
 
+/usr/include/c++/12.2.0/cstring:
+
 /usr/include/bits/timesize.h:
 
 /usr/include/c++/12.2.0/bits/memoryfwd.h:
@@ -658,6 +683,8 @@ CMakeFiles/ejercicio05.dir/e05/ejercicio05.cpp.o: /home/larguelles/school/atitul
 /usr/include/c++/12.2.0/string_view:
 
 /usr/include/c++/12.2.0/bits/alloc_traits.h:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/constants.hpp:
 
 /usr/include/bits/struct_rwlock.h:
 
@@ -1042,6 +1069,8 @@ CMakeFiles/ejercicio05.dir/e05/ejercicio05.cpp.o: /home/larguelles/school/atitul
 /usr/include/bits/types/struct___jmp_buf_tag.h:
 
 /usr/include/bits/pthread_stack_min-dynamic.h:
+
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/external/glm-0.9.7.1/glm/gtc/quaternion.inl:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include-fixed/syslimits.h:
 

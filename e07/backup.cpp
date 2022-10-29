@@ -16,8 +16,6 @@
 // Texto
 #define GLT_IMPLEMENTATION
 #include "gltext.h"
-#include <ft2build.h>
-#include FT_FREETYPE_H
 
 using namespace glm;
 
@@ -86,27 +84,20 @@ int main(int argc, char **argv) {
 
 	// END BOILERPLATE
 
-	// USAR FREETYPE PARA TEXTO
-	FT_Library ft;
-	if (FT_Init_FreeType(&ft))
-		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+	// inicializar librería de texto
+	if (!gltInit())
+	{
+		fprintf(stderr, "Failed to initialize glText\n");
+		glfwTerminate();
+		return EXIT_FAILURE;
+    }
 
-	FT_Face face;
-	if (FT_New_Face(ft, "fonts/arial.ttf", 0, &face))
-		std::cout << "ERROR::FREETYPE: Failed to load font" << std::endl;
-
-	std::map<char, Character> Characters;
-	mapChars(face, Characters);
-
-	// (FT_Face, width, height): width en 0 permite que es calcule automaticamente
-	FT_Set_Pixel_Sizes(face, 0, 48);
 	// CALLBACKS
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 
 	// SHADERS
 	Shader shader("./shader.vs", "./shader.fs");
 	Shader shaderNT("./shader_no_transform.vs", "./shader.fs");
-	Shader shaderText("./shader_text.vs", "./text_shader.fs");
 
 	// 8 vértices, 6 datos por cada uno (3 posición, 3 color)
 	int nData = 8*6;
@@ -253,29 +244,24 @@ int main(int argc, char **argv) {
 				button_indices, GL_STATIC_DRAW);
 
 	// TEXTO
-	if (!gltInit())
-	{
-		fprintf(stderr, "Failed to initialize glText\n");
-		glfwTerminate();
-		return EXIT_FAILURE;
-    }
+
 	GLTtext *text1 = gltCreateText();
     gltSetText(text1, "Hello world!");
+
 	unsigned int VAOT, VBOT;
 	glGenVertexArrays(1, &VAOT);
 	glGenBuffers(1, &VBOT);
-
 	glBindVertexArray(VAOT);
 	glBindBuffer(GL_ARRAY_BUFFER, VBOT);
-
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6*4, NULL, GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
-
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, VBOT);
 	glBindVertexArray(0);
 
 	glm::mat4 projection_text = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+
+
 
 	// Activar 3D
 	glm::mat4 model         = glm::mat4(1.0f); // inicializar con matriz identidad
@@ -304,29 +290,24 @@ int main(int argc, char **argv) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-		// shader.use();
-		// glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-		// shader.setMat4("projection", projection);
+		shader.use();
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+		shader.setMat4("projection", projection);
 
-		// // Triangle
-		// glBindVertexArray(VAO);
-		// glDrawElements(GL_TRIANGLES, nIndices,
-		// 			   GL_UNSIGNED_INT, 0);
+		// Triangle
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, nIndices,
+					   GL_UNSIGNED_INT, 0);
 
-		// // Buttons
-		// shaderNT.use();
-		// glBindVertexArray(VAOb);
-		// glDrawElements(GL_TRIANGLES, sizeof(button_indices)/sizeof(GLfloat),
-		// 			   GL_UNSIGNED_INT, 0);
-        gltBeginDraw();
+		// Buttons
+		shaderNT.use();
+		glBindVertexArray(VAOb);
+		glDrawElements(GL_TRIANGLES, sizeof(button_indices)/sizeof(GLfloat),
+					   GL_UNSIGNED_INT, 0);
 
-		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-        gltDrawText2DAligned(text1, W_WIDTH/2, W_HEIGHT/2, 3.0f,
-                            GLT_CENTER, GLT_CENTER);
-        gltEndDraw();
 		shaderText.use();
-		RenderText(shaderText, "This is sample text", 0.0f, 0.0f, 1.0f,
+		RenderText(shaderText, "This is sample text", 25.0f, 25.0f, 1.0f,
 		glm::vec3(0.5, 0.8f, 0.2f), VAOT, VBOT, Characters);
 		RenderText(shaderText, "(C) LearnOpenGL.com", 540.0f, 570.0f, 0.5f,
 		glm::vec3(0.3, 0.7f, 0.9f), VAOT, VBOT, Characters);

@@ -24,13 +24,16 @@ using namespace glm;
 // Definir constantes
 #define W_HEIGHT 600
 #define W_WIDTH 600
-#define THETA_DELTA 0.01f
+#define THETA_DELTA 0.05f
+
+// Vector booleano que detecta si un boton está siendo presionado,
+// para rotar el cubo en el loop principal
+bool button_clicked[] = {false, false, false};
 
 struct glm_ptr {
 	unsigned int VBO;
 	int nData;
-	GLfloat* vertices, *rotated_vertices;
-	glm::vec3 theta;
+	GLfloat* vertices;
 };
 
 void rotate(glm_ptr* ptr, glm::mat3 matrix);
@@ -84,7 +87,6 @@ int main(int argc, char **argv) {
 	// 8 vértices, 6 datos por cada uno (3 posición, 3 color)
 	int nData = 8*6;
 	GLfloat vertices[nData];
-	GLfloat empty[nData];
 	int counter = 0;
 	for (int i = 0; i < 2; i++) {
 		float x = 0, y = 0, z = 0;
@@ -103,10 +105,6 @@ int main(int argc, char **argv) {
 				vertices[idx+4] = (int)floor(counter/2) % 2;
 				vertices[idx+5] = (int)floor(counter/4) % 2;
 
-				// Para tener los colores ya guardados en el vector de rotaciones
-				empty[idx+3] = counter % 2;
-				empty[idx+4] = (int)floor(counter/2) % 2;
-				empty[idx+5] = (int)floor(counter/4) % 2;
 				counter++;
 			}
 		}
@@ -136,7 +134,6 @@ int main(int argc, char **argv) {
 	ptr->VBO = VBO;
 	ptr->nData = nData;
 	ptr->vertices = vertices;
-	ptr->rotated_vertices = empty;
 	glfwSetWindowUserPointer(window, ptr);
 
 	// primero hay que hacer bind, para que tengan efecto las operaciones
@@ -263,13 +260,6 @@ int main(int argc, char **argv) {
 	unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
 	unsigned int viewLoc  = glGetUniformLocation(shader.ID, "view");
 
-	// Crear matrices
-	glm::vec3 theta = glm::vec3(0.0f, 0.0f, 0.0f);
-	ptr->theta = theta;
-	glm::mat4 Rx(1.0f);
-	glm::mat4 Ry(1.0f);
-	glm::mat4 Rz(1.0f);
-
 	float x = 0;
 	while(!glfwWindowShouldClose(window))
 	{
@@ -312,6 +302,14 @@ int main(int argc, char **argv) {
         gltDrawText2DAligned(text3, 480.0f, 60.0f, 1.0f,
                             GLT_CENTER, GLT_CENTER);
         gltEndDraw();
+
+		// Rotar
+		if (button_clicked[0])
+			rotateX(ptr);
+		if (button_clicked[1])
+			rotateY(ptr);
+		if (button_clicked[2])
+			rotateZ(ptr);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -362,57 +360,67 @@ void rotate(glm_ptr* ptr, glm::mat3 matrix) {
 		}
 		// Aplicar la transformación
 		glm::vec3 vector = vec3(x, y, z);
-		ptr->rotated_vertices[idx] = dot(vec3(matrix[0][0], matrix[1][0], matrix[2][0]), vector);
-		ptr->rotated_vertices[idx+1] = dot(vec3(matrix[0][1], matrix[1][1], matrix[2][1]), vector);
-		ptr->rotated_vertices[idx+2] = dot(vec3(matrix[0][2], matrix[1][2], matrix[2][2]), vector);
+		ptr->vertices[idx] = dot(vec3(matrix[0][0], matrix[1][0], matrix[2][0]), vector);
+		ptr->vertices[idx+1] = dot(vec3(matrix[0][1], matrix[1][1], matrix[2][1]), vector);
+		ptr->vertices[idx+2] = dot(vec3(matrix[0][2], matrix[1][2], matrix[2][2]), vector);
 
 	}
 	// Configurar VBO
 	glBindBuffer(GL_ARRAY_BUFFER, ptr->VBO);
 	glBufferData(GL_ARRAY_BUFFER, ptr->nData*sizeof(GLfloat),
-				ptr->rotated_vertices, GL_DYNAMIC_DRAW);
+				ptr->vertices, GL_DYNAMIC_DRAW);
 }
 
 void rotateX(glm_ptr* ptr) {
-	ptr->theta.x += THETA_DELTA;
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRX = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRX[1][1] = cos(ptr->theta.x);
-	matrixRX[2][1] = -sin(ptr->theta.x);
-	matrixRX[1][2] = sin(ptr->theta.x);
-	matrixRX[2][2] = cos(ptr->theta.x);
+	matrixRX[1][1] = cos(THETA_DELTA);
+	matrixRX[2][1] = -sin(THETA_DELTA);
+	matrixRX[1][2] = sin(THETA_DELTA);
+	matrixRX[2][2] = cos(THETA_DELTA);
 	rotate(ptr, matrixRX);
 }
 
 void rotateY(glm_ptr* ptr) {
-	ptr->theta.y += THETA_DELTA;
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRY = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRY[0][0] = cos(ptr->theta.y);
-	matrixRY[2][0] = sin(ptr->theta.y);
-	matrixRY[0][2] = -sin(ptr->theta.y);
-	matrixRY[2][2] = cos(ptr->theta.y);
+	matrixRY[0][0] = cos(THETA_DELTA);
+	matrixRY[2][0] = sin(THETA_DELTA);
+	matrixRY[0][2] = -sin(THETA_DELTA);
+	matrixRY[2][2] = cos(THETA_DELTA);
 	rotate(ptr, matrixRY);
 }
 
 void rotateZ(glm_ptr* ptr) {
-	ptr->theta.z += THETA_DELTA;
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRZ = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRZ[0][0] = cos(ptr->theta.z);
-	matrixRZ[1][0] = -sin(ptr->theta.z);
-	matrixRZ[0][1] = sin(ptr->theta.z);
-	matrixRZ[1][1] = cos(ptr->theta.z);
+	matrixRZ[0][0] = cos(THETA_DELTA);
+	matrixRZ[1][0] = -sin(THETA_DELTA);
+	matrixRZ[0][1] = sin(THETA_DELTA);
+	matrixRZ[1][1] = cos(THETA_DELTA);
 	rotate(ptr, matrixRZ);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
 	double xpos, ypos;
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+	glm_ptr *ptr = (glm_ptr*)glfwGetWindowUserPointer(window);
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		glfwGetCursorPos(window, &xpos, &ypos);
 		std::cout << xpos << " " << ypos << std::endl;
+		if (ypos <= 75 && ypos >= 40) {
+			if (xpos >= 60 && xpos <= 180 )
+				button_clicked[0] = true;
+			if (xpos >= 235 && xpos <= 360 )
+				button_clicked[1] = true;
+			if (xpos >= 415 && xpos <= 540 )
+				button_clicked[2] = true;
+		}
+	} else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		button_clicked[0] = false;
+		button_clicked[1] = false;
+		button_clicked[2] = false;
 	}
 }

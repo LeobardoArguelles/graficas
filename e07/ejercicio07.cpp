@@ -260,7 +260,11 @@ int main(int argc, char **argv) {
 		return EXIT_FAILURE;
     }
 	GLTtext *text1 = gltCreateText();
-    gltSetText(text1, "Hello world!");
+	GLTtext *text2 = gltCreateText();
+	GLTtext *text3 = gltCreateText();
+    gltSetText(text1, "Rotate X");
+    gltSetText(text2, "Rotate Y");
+    gltSetText(text3, "Rotate Z");
 	unsigned int VAOT, VBOT;
 	glGenVertexArrays(1, &VAOT);
 	glGenBuffers(1, &VBOT);
@@ -274,8 +278,6 @@ int main(int argc, char **argv) {
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	glm::mat4 projection_text = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
 
 	// Activar 3D
 	glm::mat4 model         = glm::mat4(1.0f); // inicializar con matriz identidad
@@ -304,32 +306,39 @@ int main(int argc, char **argv) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-		// shader.use();
-		// glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-		// shader.setMat4("projection", projection);
+		shader.use();
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+		shader.setMat4("projection", projection);
 
-		// // Triangle
-		// glBindVertexArray(VAO);
-		// glDrawElements(GL_TRIANGLES, nIndices,
-		// 			   GL_UNSIGNED_INT, 0);
+		// Triangle
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, nIndices,
+					   GL_UNSIGNED_INT, 0);
 
-		// // Buttons
-		// shaderNT.use();
-		// glBindVertexArray(VAOb);
-		// glDrawElements(GL_TRIANGLES, sizeof(button_indices)/sizeof(GLfloat),
-		// 			   GL_UNSIGNED_INT, 0);
+		// Buttons
+		shaderNT.use();
+		glBindVertexArray(VAOb);
+		glDrawElements(GL_TRIANGLES, sizeof(button_indices)/sizeof(GLfloat),
+					   GL_UNSIGNED_INT, 0);
+
+		// Elimina la información de profundidad para dibujar el texto sobre
+		// los botones.
+		// Ver: https://stackoverflow.com/questions/5526704/how-do-i-keep-an-object-always-in-front-of-everything-else-in-opengl
+		glClear(GL_DEPTH_BUFFER_BIT);
         gltBeginDraw();
 
 		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
-        gltDrawText2DAligned(text1, W_WIDTH/2, W_HEIGHT/2, 3.0f,
+		//                              x     y     scale
+        gltDrawText2DAligned(text1, 115.0f, 70.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+
+        gltDrawText2DAligned(text2, 300.0f, 70.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+
+        gltDrawText2DAligned(text3, 480.0f, 70.0f, 1.0f,
                             GLT_CENTER, GLT_CENTER);
         gltEndDraw();
-		shaderText.use();
-		RenderText(shaderText, "This is sample text", 0.0f, 0.0f, 1.0f,
-		glm::vec3(0.5, 0.8f, 0.2f), VAOT, VBOT, Characters);
-		RenderText(shaderText, "(C) LearnOpenGL.com", 540.0f, 570.0f, 0.5f,
-		glm::vec3(0.3, 0.7f, 0.9f), VAOT, VBOT, Characters);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

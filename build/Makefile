@@ -253,6 +253,19 @@ ejercicio07/fast:
 .PHONY : ejercicio07/fast
 
 #=============================================================================
+# Target rules for targets named ejercicio08
+
+# Build rule for target.
+ejercicio08: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ejercicio08
+.PHONY : ejercicio08
+
+# fast build rule for target.
+ejercicio08/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/build
+.PHONY : ejercicio08/fast
+
+#=============================================================================
 # Target rules for targets named GLEW_1130
 
 # Build rule for target.
@@ -706,6 +719,7 @@ common/shader.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio05.dir/build.make CMakeFiles/ejercicio05.dir/common/shader.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio06.dir/build.make CMakeFiles/ejercicio06.dir/common/shader.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio07.dir/build.make CMakeFiles/ejercicio07.dir/common/shader.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/common/shader.cpp.o
 .PHONY : common/shader.cpp.o
 
 common/shader.i: common/shader.cpp.i
@@ -720,6 +734,7 @@ common/shader.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio05.dir/build.make CMakeFiles/ejercicio05.dir/common/shader.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio06.dir/build.make CMakeFiles/ejercicio06.dir/common/shader.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio07.dir/build.make CMakeFiles/ejercicio07.dir/common/shader.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/common/shader.cpp.i
 .PHONY : common/shader.cpp.i
 
 common/shader.s: common/shader.cpp.s
@@ -734,6 +749,7 @@ common/shader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio05.dir/build.make CMakeFiles/ejercicio05.dir/common/shader.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio06.dir/build.make CMakeFiles/ejercicio06.dir/common/shader.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio07.dir/build.make CMakeFiles/ejercicio07.dir/common/shader.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/common/shader.cpp.s
 .PHONY : common/shader.cpp.s
 
 e01/ejercicio01.o: e01/ejercicio01.cpp.o
@@ -904,6 +920,30 @@ e07/ejercicio07.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio07.dir/build.make CMakeFiles/ejercicio07.dir/e07/ejercicio07.cpp.s
 .PHONY : e07/ejercicio07.cpp.s
 
+e08/ejercicio08.o: e08/ejercicio08.cpp.o
+.PHONY : e08/ejercicio08.o
+
+# target to build an object file
+e08/ejercicio08.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/e08/ejercicio08.cpp.o
+.PHONY : e08/ejercicio08.cpp.o
+
+e08/ejercicio08.i: e08/ejercicio08.cpp.i
+.PHONY : e08/ejercicio08.i
+
+# target to preprocess a source file
+e08/ejercicio08.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/e08/ejercicio08.cpp.i
+.PHONY : e08/ejercicio08.cpp.i
+
+e08/ejercicio08.s: e08/ejercicio08.cpp.s
+.PHONY : e08/ejercicio08.s
+
+# target to generate assembly for a file
+e08/ejercicio08.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ejercicio08.dir/build.make CMakeFiles/ejercicio08.dir/e08/ejercicio08.cpp.s
+.PHONY : e08/ejercicio08.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -935,6 +975,7 @@ help:
 	@echo "... ejercicio05"
 	@echo "... ejercicio06"
 	@echo "... ejercicio07"
+	@echo "... ejercicio08"
 	@echo "... empty"
 	@echo "... events"
 	@echo "... gamma"
@@ -981,6 +1022,9 @@ help:
 	@echo "... e07/ejercicio07.o"
 	@echo "... e07/ejercicio07.i"
 	@echo "... e07/ejercicio07.s"
+	@echo "... e08/ejercicio08.o"
+	@echo "... e08/ejercicio08.i"
+	@echo "... e08/ejercicio08.s"
 .PHONY : help
 
 

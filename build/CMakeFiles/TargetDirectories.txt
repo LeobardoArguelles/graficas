@@ -5,6 +5,7 @@
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/ejercicio05.dir
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/ejercicio06.dir
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/ejercicio07.dir
+/home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/ejercicio08.dir
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/edit_cache.dir
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/rebuild_cache.dir
 /home/larguelles/school/atitulos/graficas/ejercicios/cpp/build/CMakeFiles/list_install_components.dir

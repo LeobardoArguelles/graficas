@@ -25,6 +25,8 @@ using namespace glm;
 #define W_HEIGHT 600
 #define W_WIDTH 600
 #define THETA_DELTA 0.05f
+#define TRANSLATE_DELTA 0.05f
+#define SCALE_DELTA 0.05f
 
 // Vector booleano que detecta si un boton está siendo presionado,
 // para rotar el cubo en el loop principal
@@ -61,6 +63,11 @@ void rotate(glm_ptr* ptr, glm::mat3 matrix);
 void rotateX(glm_ptr* ptr, int direction);
 void rotateY(glm_ptr* ptr, int direction);
 void rotateZ(glm_ptr* ptr, int direction);
+
+void translate(glm_ptr* ptr, int x, int y, int z);
+void translateX(glm_ptr* ptr, int direction);
+void translateY(glm_ptr* ptr, int direction);
+void translateZ(glm_ptr* ptr, int direction);
 void processInput(GLFWwindow *window);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void quad(unsigned int a, unsigned int b, unsigned int c, unsigned int d, GLfloat vertices[], unsigned int indices[],
@@ -343,6 +350,19 @@ int main(int argc, char **argv) {
 			rotateZ(ptr, 1);
 		else if (rotate_btns.zminus)
 			rotateZ(ptr, -1);
+		// Trasladar
+		if (translate_btns.xplus)
+			translateX(ptr, 1);
+		else if (translate_btns.xminus)
+			translateX(ptr, -1);
+		else if (translate_btns.yplus)
+			translateY(ptr, 1);
+		else if (translate_btns.yminus)
+			translateY(ptr, -1);
+		else if (translate_btns.zplus)
+			translateZ(ptr, 1);
+		else if (translate_btns.zminus)
+			translateZ(ptr, -1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -436,6 +456,58 @@ void rotateZ(glm_ptr* ptr, int direction) {
 	matrixRZ[0][1] = sin(THETA_DELTA*direction);
 	matrixRZ[1][1] = cos(THETA_DELTA*direction);
 	rotate(ptr, matrixRZ);
+}
+
+void translate(glm_ptr* ptr, int x, int y, int z) {
+	// ptr->theta.x += 0.1f;
+	bool positions = true;
+	GLfloat prevY = 0;
+	GLfloat x = 0, y = 0, z = 0;
+	// Crear la matriz con el desplazamiento adecuado.
+	// Ver 8.14 del libro learnopengl
+	glm::mat3 matrixTranslation = glm::mat4(1.0f);
+	matrixTranslation[3][0] = x;
+	matrixTranslation[3][1] = y;
+	matrixTranslation[3][2] = z;
+	for (int idx = 0; idx < ptr->nData; idx++) {
+		if (positions) {
+			// Obtener primero todos los componentes
+			positions = false;
+			x = ptr->vertices[idx];
+			y = ptr->vertices[idx+1];
+			z = ptr->vertices[idx+2];
+		}
+		else {
+			positions = true;
+			idx += 4;
+			continue;
+		}
+		// Aplicar la transformación
+		glm::vec3 vector = vec4(x, y, z, 1);
+		ptr->vertices[idx] = dot(vec4(matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0]), vector);
+		ptr->vertices[idx+1] = dot(vec4(matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1]), vector);
+		ptr->vertices[idx+2] = dot(vec4(matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2]), vector);
+
+	}
+	// Configurar VBO
+	glBindBuffer(GL_ARRAY_BUFFER, ptr->VBO);
+	glBufferData(GL_ARRAY_BUFFER, ptr->nData*sizeof(GLfloat),
+				ptr->vertices, GL_DYNAMIC_DRAW);
+}
+
+void translateX(glm_ptr* ptr, int direction) {
+	// Direction debe ser -1 ó 1
+	translate(ptr, TRANSLATE_DELTA*direction, 0, 0);
+}
+
+void translateY(glm_ptr* ptr, int direction) {
+	// Direction debe ser -1 ó 1
+	translate(ptr, 0, TRANSLATE_DELTA*direction, 0);
+}
+
+void translateZ(glm_ptr* ptr, int direction) {
+	// Direction debe ser -1 ó 1
+	translate(ptr, 0, 0, TRANSLATE_DELTA*direction);
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {

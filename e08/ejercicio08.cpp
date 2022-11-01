@@ -36,6 +36,14 @@ struct glm_ptr {
 	GLfloat* vertices;
 };
 
+struct Point {
+	GLfloat x, y;
+};
+
+struct Button {
+    Point top_left, bot_right;
+};
+
 void rotate(glm_ptr* ptr, glm::mat3 matrix);
 void rotateX(glm_ptr* ptr);
 void rotateY(glm_ptr* ptr);
@@ -44,6 +52,9 @@ void processInput(GLFWwindow *window);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void quad(unsigned int a, unsigned int b, unsigned int c, unsigned int d, GLfloat vertices[], unsigned int indices[],
 unsigned int start);
+void generateButton(GLfloat* vertices, unsigned int* indices, int start_v,
+int start_idx, Point top_left, GLfloat width, GLfloat height, unsigned int start_point);
+void generateButtons(GLfloat* vertices, unsigned int* indices);
 
 int main(int argc, char **argv) {
 	// START BOILERPLATE
@@ -170,36 +181,15 @@ int main(int argc, char **argv) {
 				 indices, GL_DYNAMIC_DRAW);
 
 	// BOTONES
-	GLfloat button_w = 0.4f;
-	GLfloat sep = (2 - button_w*3)/4;
-	GLfloat button_x = -1.0f + sep;
-	GLfloat button_y = 0.85f;
-	GLfloat button_h = 0.1f;
-	GLfloat buttons_vertices[] = {
-	// Botón 1
-	button_x, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	button_x + button_w, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	button_x, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	button_x + button_w, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
 
-	// Botón 2
-	button_x + button_w + sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	button_x + 2*button_w + sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	button_x + button_w + sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	button_x + 2*button_w + sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
 
-	// Botón 3
-	button_x + 2*(button_w + sep), button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	button_x + 3*button_w + 2*sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	button_x + 2*(button_w + sep), button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	button_x + 3*button_w + 2*sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-	};
+	// 3 menus, 6 botones por menu, 4 vertices por boton, 6 datos por vértice
+	unsigned int nVertices = 6*3*4*6;
+	nIndices = 3*6*6;
+	GLfloat buttons_vertices[nVertices];
+	unsigned int buttons_indices[nIndices];
 
-	unsigned int button_indices[] = {
-	0, 1, 2, 1, 2, 3, // button 1
-	4, 5, 6, 5, 6, 7, // button 2
-	8, 9, 10, 9, 10, 11, // button 3
-	};
+	generateButtons(buttons_vertices, buttons_indices);
 
 	unsigned int VAOb, VBOb, EBOb;
 	glGenVertexArrays(1, &VAOb);
@@ -219,8 +209,8 @@ int main(int argc, char **argv) {
 	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOb);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(button_indices),
-				button_indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(buttons_indices),
+				buttons_indices, GL_STATIC_DRAW);
 
 	// TEXTO
 	if (!gltInit())
@@ -232,9 +222,15 @@ int main(int argc, char **argv) {
 	GLTtext *text1 = gltCreateText();
 	GLTtext *text2 = gltCreateText();
 	GLTtext *text3 = gltCreateText();
-    gltSetText(text1, "Rotate X");
-    gltSetText(text2, "Rotate Y");
-    gltSetText(text3, "Rotate Z");
+	GLTtext *text4 = gltCreateText();
+	GLTtext *text5 = gltCreateText();
+	GLTtext *text6 = gltCreateText();
+    gltSetText(text1, "-     X     +");
+    gltSetText(text2, "-     Y     +");
+    gltSetText(text3, "-     Z     +");
+    gltSetText(text4, "Rotar");
+    gltSetText(text5, "Trasladar");
+    gltSetText(text6, "Escalar");
 	unsigned int VAOT, VBOT;
 	glGenVertexArrays(1, &VAOT);
 	glGenBuffers(1, &VBOT);
@@ -282,7 +278,7 @@ int main(int argc, char **argv) {
 		// Buttons
 		shaderNT.use();
 		glBindVertexArray(VAOb);
-		glDrawElements(GL_TRIANGLES, sizeof(button_indices)/sizeof(GLfloat),
+		glDrawElements(GL_TRIANGLES, sizeof(buttons_indices)/sizeof(unsigned int),
 					   GL_UNSIGNED_INT, 0);
 
 		// Elimina la información de profundidad para dibujar el texto sobre
@@ -292,14 +288,32 @@ int main(int argc, char **argv) {
         gltBeginDraw();
 
 		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
+        gltDrawText2DAligned(text4, 125.0f, 30.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text5, 300.0f, 30.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text6, 470.0f, 30.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
 		//                              x     y     scale
-        gltDrawText2DAligned(text1, 115.0f, 60.0f, 1.0f,
+        gltDrawText2DAligned(text1, 125.0f, 60.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text1, 300.0f, 60.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text1, 470.0f, 60.0f, 1.0f,
                             GLT_CENTER, GLT_CENTER);
 
-        gltDrawText2DAligned(text2, 300.0f, 60.0f, 1.0f,
+        gltDrawText2DAligned(text2, 125.0f, 120.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text2, 300.0f, 120.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text2, 470.0f, 120.0f, 1.0f,
                             GLT_CENTER, GLT_CENTER);
 
-        gltDrawText2DAligned(text3, 480.0f, 60.0f, 1.0f,
+        gltDrawText2DAligned(text3, 125.0f, 180.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text3, 300.0f, 180.0f, 1.0f,
+                            GLT_CENTER, GLT_CENTER);
+        gltDrawText2DAligned(text3, 470.0f, 180.0f, 1.0f,
                             GLT_CENTER, GLT_CENTER);
         gltEndDraw();
 
@@ -424,3 +438,150 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		button_clicked[2] = false;
 	}
 }
+
+void generateButtons(GLfloat* vertices, unsigned int* indices) {
+	// Definir variables
+	GLfloat button_w = 0.1f;
+	GLfloat space = 0.1f;
+	GLfloat vspace = 0.1f;
+	GLfloat sep = (2 - (button_w*2 + space)*3)/4;
+	GLfloat button_h = 0.1f;
+	GLfloat startx = -1.0f + sep;
+	GLfloat starty = 0.85f;
+	unsigned int groups = 3;
+
+	// Hacer 1 grupo a la vez (Rotacion, traslacion, escalamiento)
+	for(int i = 0; i < 3; i++) {
+		GLfloat top_left_x = startx;
+		GLfloat top_left_y = starty - i*(button_h + vspace);
+		for (int j = 0; j < 6; j++) {
+			unsigned int start_v = j*24 + i*144;
+			unsigned int start_idx = j*6 + i*36;
+			unsigned int start_point = j*4 + i*24;
+			if (j > 0)
+				top_left_x += j%2 == 1 > 0 ? button_w + space : button_w + sep;
+			Point top_left = {top_left_x, top_left_y};
+			generateButton(vertices, indices, start_v, start_idx, top_left, button_w, button_h, start_point);
+		}
+	}
+}
+
+void generateButton(GLfloat* vertices, unsigned int* indices, int start_v,
+int start_idx, Point top_left, GLfloat width, GLfloat height, unsigned int start_point) {
+	// Se necesitan 4 puntos, 6 datos por punto
+	// TOP LEFT
+	vertices[start_v] = top_left.x;
+	vertices[start_v+1] = top_left.y;
+	vertices[start_v+2] = 0.0f;
+	vertices[start_v+3] = 0.75f;
+	vertices[start_v+4] = 0.75f;
+	vertices[start_v+5] = 0.75f;
+
+	// TOP RIGHT
+	vertices[start_v+6] = top_left.x + width;
+	vertices[start_v+7] = top_left.y;
+	vertices[start_v+8] = 0.0f;
+	vertices[start_v+9] = 0.75f;
+	vertices[start_v+10] = 0.75f;
+	vertices[start_v+11] = 0.75f;
+
+	// BOT LEFT
+	vertices[start_v+12] = top_left.x;
+	vertices[start_v+13] = top_left.y - height;
+	vertices[start_v+14] = 0.0f;
+	vertices[start_v+15] = 0.75f;
+	vertices[start_v+16] = 0.75f;
+	vertices[start_v+17] = 0.75f;
+
+	// BOT RIGHT
+	vertices[start_v+18] = top_left.x + width;
+	vertices[start_v+19] = top_left.y - height;
+	vertices[start_v+20] = 0.0f;
+	vertices[start_v+21] = 0.75f;
+	vertices[start_v+22] = 0.75f;
+	vertices[start_v+23] = 0.75f;
+
+	indices[start_idx] = start_point;
+	indices[start_idx+1] = start_point + 1;
+	indices[start_idx+2] = start_point + 2;
+	indices[start_idx+3] = start_point + 1;
+	indices[start_idx+4] = start_point + 2;
+	indices[start_idx+5] = start_point + 3;
+}
+
+// {
+	// // ROTACIÓN
+	// // < X
+	// button_x, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + button_w, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + button_w, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // > X
+	// button_x + button_w + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + button_w + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // < Y
+	// button_x, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + button_w, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + button_w, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // > Y
+	// button_x + button_w + space, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + space, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + button_w + space, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + space, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // < Z
+	// button_x, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + button_w, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + button_w, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // > Z
+	// button_x + button_w + space, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + space, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + button_w + space, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + space, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // TRASLACIÓN
+	// // < X
+	// button_x + 2*button_w + space + sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + 2*space + sep + button_w, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + 2*button_w + space + sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + 2*space + sep + button_w, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // > X
+	// button_x + button_w + sep + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + sep + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + button_w + sep + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + sep + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // < Y
+	// button_x, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + button_w, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + button_w, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // > Y
+	// button_x + button_w + sep, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + sep, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + button_w + sep, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + sep, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // < Z
+	// button_x, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + button_w, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + button_w, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// // > Z
+	// button_x + button_w + sep, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	// button_x + 2*button_w + sep, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	// button_x + button_w + sep, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	// button_x + 2*button_w + sep, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+

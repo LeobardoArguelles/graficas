@@ -424,3 +424,9 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		button_clicked[2] = false;
 	}
 }
+
+void generateButtons(GLfloat startx, GLfloat starty, GLfloat midspace, GLfloat group_space, GLfloat* vertices, int n_vertices) {
+	for (int i = 0; i < n_vertices; i++) {
+		// vertices[i] =
+	}
+}

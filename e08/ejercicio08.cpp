@@ -28,7 +28,20 @@ using namespace glm;
 
 // Vector booleano que detecta si un boton está siendo presionado,
 // para rotar el cubo en el loop principal
-bool button_clicked[] = {false, false, false};
+bool rotate_button_clicked[] = {false, false, false};
+
+struct button_group {
+	bool xplus = false;
+	bool xminus = false;
+	bool yplus = false;
+	bool yminus = false;
+	bool zplus = false;
+	bool zminus = false;
+};
+
+button_group rotate_btns;
+button_group translate_btns;
+button_group scale_btns;
 
 struct glm_ptr {
 	unsigned int VBO;
@@ -45,9 +58,9 @@ struct Button {
 };
 
 void rotate(glm_ptr* ptr, glm::mat3 matrix);
-void rotateX(glm_ptr* ptr);
-void rotateY(glm_ptr* ptr);
-void rotateZ(glm_ptr* ptr);
+void rotateX(glm_ptr* ptr, int direction);
+void rotateY(glm_ptr* ptr, int direction);
+void rotateZ(glm_ptr* ptr, int direction);
 void processInput(GLFWwindow *window);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void quad(unsigned int a, unsigned int b, unsigned int c, unsigned int d, GLfloat vertices[], unsigned int indices[],
@@ -318,12 +331,18 @@ int main(int argc, char **argv) {
         gltEndDraw();
 
 		// Rotar
-		if (button_clicked[0])
-			rotateX(ptr);
-		if (button_clicked[1])
-			rotateY(ptr);
-		if (button_clicked[2])
-			rotateZ(ptr);
+		if (rotate_btns.xplus)
+			rotateX(ptr, 1);
+		else if (rotate_btns.xminus)
+			rotateX(ptr, -1);
+		else if (rotate_btns.yplus)
+			rotateY(ptr, 1);
+		else if (rotate_btns.yminus)
+			rotateY(ptr, -1);
+		else if (rotate_btns.zplus)
+			rotateZ(ptr, 1);
+		else if (rotate_btns.zminus)
+			rotateZ(ptr, -1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -385,36 +404,37 @@ void rotate(glm_ptr* ptr, glm::mat3 matrix) {
 				ptr->vertices, GL_DYNAMIC_DRAW);
 }
 
-void rotateX(glm_ptr* ptr) {
+void rotateX(glm_ptr* ptr, int direction) {
+	// Direction debe ser -1 ó 1
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRX = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRX[1][1] = cos(THETA_DELTA);
-	matrixRX[2][1] = -sin(THETA_DELTA);
-	matrixRX[1][2] = sin(THETA_DELTA);
-	matrixRX[2][2] = cos(THETA_DELTA);
+	matrixRX[1][1] = cos(THETA_DELTA*direction);
+	matrixRX[2][1] = -sin(THETA_DELTA*direction);
+	matrixRX[1][2] = sin(THETA_DELTA*direction);
+	matrixRX[2][2] = cos(THETA_DELTA*direction);
 	rotate(ptr, matrixRX);
 }
 
-void rotateY(glm_ptr* ptr) {
+void rotateY(glm_ptr* ptr, int direction) {
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRY = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRY[0][0] = cos(THETA_DELTA);
-	matrixRY[2][0] = sin(THETA_DELTA);
-	matrixRY[0][2] = -sin(THETA_DELTA);
-	matrixRY[2][2] = cos(THETA_DELTA);
+	matrixRY[0][0] = cos(THETA_DELTA*direction);
+	matrixRY[2][0] = sin(THETA_DELTA*direction);
+	matrixRY[0][2] = -sin(THETA_DELTA*direction);
+	matrixRY[2][2] = cos(THETA_DELTA*direction);
 	rotate(ptr, matrixRY);
 }
 
-void rotateZ(glm_ptr* ptr) {
+void rotateZ(glm_ptr* ptr, int direction) {
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRZ = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRZ[0][0] = cos(THETA_DELTA);
-	matrixRZ[1][0] = -sin(THETA_DELTA);
-	matrixRZ[0][1] = sin(THETA_DELTA);
-	matrixRZ[1][1] = cos(THETA_DELTA);
+	matrixRZ[0][0] = cos(THETA_DELTA*direction);
+	matrixRZ[1][0] = -sin(THETA_DELTA*direction);
+	matrixRZ[0][1] = sin(THETA_DELTA*direction);
+	matrixRZ[1][1] = cos(THETA_DELTA*direction);
 	rotate(ptr, matrixRZ);
 }
 
@@ -424,18 +444,69 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		glfwGetCursorPos(window, &xpos, &ypos);
 		std::cout << xpos << " " << ypos << std::endl;
-		if (ypos <= 75 && ypos >= 40) {
-			if (xpos >= 60 && xpos <= 180 )
-				button_clicked[0] = true;
-			if (xpos >= 235 && xpos <= 360 )
-				button_clicked[1] = true;
-			if (xpos >= 415 && xpos <= 540 )
-				button_clicked[2] = true;
+		if (ypos >= 45 && ypos <= 75) {
+			if (xpos >= 80 && xpos <= 115 )
+				rotate_btns.xminus = true;
+			else if (xpos >= 140 && xpos <= 170 )
+				rotate_btns.xplus = true;
+			else if (xpos >= 250 && xpos <= 285 )
+				translate_btns.xminus = true;
+			else if (xpos >= 315 && xpos <= 345 )
+				translate_btns.xplus = true;
+			else if (xpos >= 425 && xpos <= 455 )
+				scale_btns.xminus = true;
+			else if (xpos >= 485 && xpos <= 515 )
+				scale_btns.xplus = true;
+		}
+		else if (ypos >= 100 && ypos <= 130) {
+			if (xpos >= 80 && xpos <= 115 )
+				rotate_btns.yminus = true;
+			else if (xpos >= 140 && xpos <= 170 )
+				rotate_btns.yplus = true;
+			else if (xpos >= 250 && xpos <= 285 )
+				translate_btns.yminus = true;
+			else if (xpos >= 315 && xpos <= 345 )
+				translate_btns.yplus = true;
+			else if (xpos >= 425 && xpos <= 455 )
+				scale_btns.yminus = true;
+			else if (xpos >= 485 && xpos <= 515 )
+				scale_btns.yplus = true;
+		}
+		else if (ypos >= 160 && ypos <= 200) {
+			if (xpos >= 80 && xpos <= 115 )
+				rotate_btns.zminus = true;
+			else if (xpos >= 140 && xpos <= 170 )
+				rotate_btns.zplus = true;
+			else if (xpos >= 250 && xpos <= 285 )
+				translate_btns.zminus = true;
+			else if (xpos >= 315 && xpos <= 345 )
+				translate_btns.zplus = true;
+			else if (xpos >= 425 && xpos <= 455 )
+				scale_btns.zminus = true;
+			else if (xpos >= 485 && xpos <= 515 )
+				scale_btns.zplus = true;
 		}
 	} else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-		button_clicked[0] = false;
-		button_clicked[1] = false;
-		button_clicked[2] = false;
+		rotate_btns.xminus = false;
+		rotate_btns.xplus = false;
+		rotate_btns.yminus = false;
+		rotate_btns.yplus = false;
+		rotate_btns.zminus = false;
+		rotate_btns.zplus = false;
+
+		scale_btns.xminus = false;
+		scale_btns.xplus = false;
+		scale_btns.yminus = false;
+		scale_btns.yplus = false;
+		scale_btns.zminus = false;
+		scale_btns.zplus = false;
+
+		translate_btns.xminus = false;
+		translate_btns.xplus = false;
+		translate_btns.yminus = false;
+		translate_btns.yplus = false;
+		translate_btns.zminus = false;
+		translate_btns.zplus = false;
 	}
 }
 
@@ -508,80 +579,3 @@ int start_idx, Point top_left, GLfloat width, GLfloat height, unsigned int start
 	indices[start_idx+4] = start_point + 2;
 	indices[start_idx+5] = start_point + 3;
 }
-
-// {
-	// // ROTACIÓN
-	// // < X
-	// button_x, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + button_w, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + button_w, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // > X
-	// button_x + button_w + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + button_w + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // < Y
-	// button_x, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + button_w, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + button_w, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // > Y
-	// button_x + button_w + space, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + space, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + button_w + space, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + space, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // < Z
-	// button_x, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + button_w, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + button_w, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // > Z
-	// button_x + button_w + space, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + space, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + button_w + space, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + space, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // TRASLACIÓN
-	// // < X
-	// button_x + 2*button_w + space + sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + 2*space + sep + button_w, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + 2*button_w + space + sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + 2*space + sep + button_w, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // > X
-	// button_x + button_w + sep + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + sep + space, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + button_w + sep + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + sep + space, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // < Y
-	// button_x, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + button_w, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + button_w, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // > Y
-	// button_x + button_w + sep, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + sep, button_y - vspace, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + button_w + sep, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + sep, button_y - vspace - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // < Z
-	// button_x, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + button_w, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + button_w, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-	// // > Z
-	// button_x + button_w + sep, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top left
-	// button_x + 2*button_w + sep, button_y - (vspace)*2, 0.0f, 0.75f, 0.75f, 0.75f, // top right
-	// button_x + button_w + sep, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
-	// button_x + 2*button_w + sep, button_y - (vspace)*2 - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
-
-

@@ -28,7 +28,7 @@ using namespace glm;
 
 // Vector booleano que detecta si un boton está siendo presionado,
 // para rotar el cubo en el loop principal
-bool button_clicked[] = {false, false, false};
+bool button_clicked[6] = {false};
 
 struct glm_ptr {
 	unsigned int VBO;
@@ -36,21 +36,14 @@ struct glm_ptr {
 	GLfloat* vertices;
 };
 
-struct Point {
-	GLfloat x, y;
-};
-
 void shear(glm_ptr* ptr, glm::mat3 matrix);
-void shearX(glm_ptr* ptr);
-void shearY(glm_ptr* ptr);
-void shearZ(glm_ptr* ptr);
+void shearX(glm_ptr* ptr, int direction);
+void shearY(glm_ptr* ptr, int direction);
+void shearZ(glm_ptr* ptr, int direction);
 void processInput(GLFWwindow *window);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void quad(unsigned int a, unsigned int b, unsigned int c, unsigned int d, GLfloat vertices[], unsigned int indices[],
 unsigned int start);
-void generateButton(GLfloat* vertices, unsigned int* indices, int start_v,
-int start_idx, Point top_left, GLfloat width, GLfloat height, unsigned int start_point);
-void generateButtons(GLfloat* vertices, unsigned int* indices);
 
 int main(int argc, char **argv) {
 	// START BOILERPLATE
@@ -333,11 +326,17 @@ int main(int argc, char **argv) {
 
 		// Rotar
 		if (button_clicked[0])
-			shearX(ptr);
-		if (button_clicked[1])
-			shearY(ptr);
-		if (button_clicked[2])
-			shearZ(ptr);
+			shearX(ptr, -1);
+		else if (button_clicked[1])
+			shearX(ptr, 1);
+		else if (button_clicked[2])
+			shearY(ptr, -1);
+		else if (button_clicked[3])
+			shearY(ptr, 1);
+		else if (button_clicked[4])
+			shearZ(ptr, -1);
+		else if (button_clicked[5])
+			shearZ(ptr, 1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -398,27 +397,28 @@ void shear(glm_ptr* ptr, glm::mat3 matrix) {
 				ptr->vertices, GL_DYNAMIC_DRAW);
 }
 
-void shearX(glm_ptr* ptr) {
+void shearX(glm_ptr* ptr, int direction) {
+	// Direction debe ser -1 ó 1
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRX = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRX[1][0] = cos(THETA_DELTA)/sin(THETA_DELTA);
+	matrixRX[1][0] = direction*cos(THETA_DELTA)/sin(THETA_DELTA);
 	shear(ptr, matrixRX);
 }
 
-void shearY(glm_ptr* ptr) {
+void shearY(glm_ptr* ptr, int direction) {
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRY = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRY[0][0] = cos(THETA_DELTA)/sin(THETA_DELTA);
+	matrixRY[0][1] = direction*cos(THETA_DELTA)/sin(THETA_DELTA);
 	shear(ptr, matrixRY);
 }
 
-void shearZ(glm_ptr* ptr) {
+void shearZ(glm_ptr* ptr, int direction) {
 	// Crear matriz de rotación, iniciar con la identidad
 	glm::mat3 matrixRZ = glm::mat3(1.0f);
 	// Asignar elementos necesarios
-	matrixRZ[0][0] = cos(THETA_DELTA)/sin(THETA_DELTA);
+	matrixRZ[1][2] = direction*cos(THETA_DELTA)/sin(THETA_DELTA);
 	shear(ptr, matrixRZ);
 }
 
@@ -429,92 +429,25 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		glfwGetCursorPos(window, &xpos, &ypos);
 		std::cout << xpos << " " << ypos << std::endl;
 		if (ypos <= 75 && ypos >= 40) {
-			if (xpos >= 60 && xpos <= 180 )
+			if (xpos >= 60 && xpos <= 90 )
 				button_clicked[0] = true;
-			if (xpos >= 235 && xpos <= 360 )
+			else if (xpos >= 145 && xpos <= 180 )
 				button_clicked[1] = true;
-			if (xpos >= 415 && xpos <= 540 )
+			else if (xpos >= 235 && xpos <= 270 )
 				button_clicked[2] = true;
+			else if (xpos >= 325 && xpos <= 360 )
+				button_clicked[3] = true;
+			else if (xpos >= 420 && xpos <= 450 )
+				button_clicked[4] = true;
+			else if (xpos >= 505 && xpos <= 540 )
+				button_clicked[5] = true;
 		}
 	} else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
 		button_clicked[0] = false;
 		button_clicked[1] = false;
 		button_clicked[2] = false;
+		button_clicked[3] = false;
+		button_clicked[4] = false;
+		button_clicked[5] = false;
 	}
-}
-
-void generateButtons(GLfloat startx, GLfloat starty, GLfloat midspace, GLfloat group_space, GLfloat* vertices, int n_vertices) {
-	for (int i = 0; i < n_vertices; i++) {
-		// vertices[i] =
-	}
-}
-
-void generateButtons(GLfloat* vertices, unsigned int* indices) {
-	// Definir variables
-	GLfloat button_w = 0.1f;
-	GLfloat space = 0.1f;
-	GLfloat vspace = 0.1f;
-	GLfloat sep = (2 - (button_w*2 + space)*3)/4;
-	GLfloat button_h = 0.1f;
-	GLfloat startx = -1.0f + sep;
-	GLfloat starty = 0.85f;
-	unsigned int groups = 3;
-
-	// Hacer 1 grupo a la vez (Rotacion, traslacion, escalamiento)
-	for(int i = 0; i < 3; i++) {
-		GLfloat top_left_x = startx;
-		GLfloat top_left_y = starty - i*(button_h + vspace);
-		for (int j = 0; j < 6; j++) {
-			unsigned int start_v = j*24 + i*144;
-			unsigned int start_idx = j*6 + i*36;
-			unsigned int start_point = j*4 + i*24;
-			if (j > 0)
-				top_left_x += j%2 == 1 > 0 ? button_w + space : button_w + sep;
-			Point top_left = {top_left_x, top_left_y};
-			generateButton(vertices, indices, start_v, start_idx, top_left, button_w, button_h, start_point);
-		}
-	}
-}
-
-void generateButton(GLfloat* vertices, unsigned int* indices, int start_v,
-int start_idx, Point top_left, GLfloat width, GLfloat height, unsigned int start_point) {
-	// Se necesitan 4 puntos, 6 datos por punto
-	// TOP LEFT
-	vertices[start_v] = top_left.x;
-	vertices[start_v+1] = top_left.y;
-	vertices[start_v+2] = 0.0f;
-	vertices[start_v+3] = 0.75f;
-	vertices[start_v+4] = 0.75f;
-	vertices[start_v+5] = 0.75f;
-
-	// TOP RIGHT
-	vertices[start_v+6] = top_left.x + width;
-	vertices[start_v+7] = top_left.y;
-	vertices[start_v+8] = 0.0f;
-	vertices[start_v+9] = 0.75f;
-	vertices[start_v+10] = 0.75f;
-	vertices[start_v+11] = 0.75f;
-
-	// BOT LEFT
-	vertices[start_v+12] = top_left.x;
-	vertices[start_v+13] = top_left.y - height;
-	vertices[start_v+14] = 0.0f;
-	vertices[start_v+15] = 0.75f;
-	vertices[start_v+16] = 0.75f;
-	vertices[start_v+17] = 0.75f;
-
-	// BOT RIGHT
-	vertices[start_v+18] = top_left.x + width;
-	vertices[start_v+19] = top_left.y - height;
-	vertices[start_v+20] = 0.0f;
-	vertices[start_v+21] = 0.75f;
-	vertices[start_v+22] = 0.75f;
-	vertices[start_v+23] = 0.75f;
-
-	indices[start_idx] = start_point;
-	indices[start_idx+1] = start_point + 1;
-	indices[start_idx+2] = start_point + 2;
-	indices[start_idx+3] = start_point + 1;
-	indices[start_idx+4] = start_point + 2;
-	indices[start_idx+5] = start_point + 3;
 }

@@ -177,35 +177,56 @@ int main(int argc, char **argv) {
 				 indices, GL_DYNAMIC_DRAW);
 
 	// BOTONES
-	GLfloat button_w = 0.4f;
-	GLfloat sep = (2 - button_w*3)/4;
+	GLfloat button_w = 0.1f;
+	GLfloat sep = (2 - button_w*6)/7;
 	GLfloat button_x = -1.0f + sep;
 	GLfloat button_y = 0.85f;
 	GLfloat button_h = 0.1f;
 	GLfloat buttons_vertices[] = {
-	// Botón 1
+	// X-
 	button_x, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
 	button_x + button_w, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
 	button_x, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
 	button_x + button_w, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
 
-	// Botón 2
+	// X+
 	button_x + button_w + sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
 	button_x + 2*button_w + sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
 	button_x + button_w + sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
 	button_x + 2*button_w + sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
 
-	// Botón 3
+	// Y-
 	button_x + 2*(button_w + sep), button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
 	button_x + 3*button_w + 2*sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
 	button_x + 2*(button_w + sep), button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
 	button_x + 3*button_w + 2*sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// Y+
+	button_x + 3*(button_w + sep), button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	button_x + 4*button_w + 3*sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	button_x + 3*(button_w + sep), button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	button_x + 4*button_w + 3*sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// Z-
+	button_x + 4*(button_w + sep), button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	button_x + 5*button_w + 4*sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	button_x + 4*(button_w + sep), button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	button_x + 5*button_w + 4*sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
+
+	// Z+
+	button_x + 5*(button_w + sep), button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top left
+	button_x + 6*button_w + 5*sep, button_y, 0.0f, 0.75f, 0.75f, 0.75f, // top right
+	button_x + 5*(button_w + sep), button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot left
+	button_x + 6*button_w + 5*sep, button_y - button_h, 0.0f, 0.75f, 0.75f, 0.75f, // bot right
 	};
 
 	unsigned int button_indices[] = {
 	0, 1, 2, 1, 2, 3, // button 1
 	4, 5, 6, 5, 6, 7, // button 2
 	8, 9, 10, 9, 10, 11, // button 3
+	12, 13, 14, 13, 14, 15,
+	16, 17, 18, 17, 18, 19,
+	20, 21, 22, 21, 22, 23
 	};
 
 	unsigned int VAOb, VBOb, EBOb;
@@ -239,9 +260,9 @@ int main(int argc, char **argv) {
 	GLTtext *text1 = gltCreateText();
 	GLTtext *text2 = gltCreateText();
 	GLTtext *text3 = gltCreateText();
-    gltSetText(text1, "Shear X");
-    gltSetText(text2, "Shear Y");
-    gltSetText(text3, "Shear Z");
+    gltSetText(text1, "-   Shear X   +");
+    gltSetText(text2, "-   Shear Y   +");
+    gltSetText(text3, "-   Shear Z   +");
 	unsigned int VAOT, VBOT;
 	glGenVertexArrays(1, &VAOT);
 	glGenBuffers(1, &VBOT);
@@ -300,7 +321,7 @@ int main(int argc, char **argv) {
 
 		gltColor(1.0f, 1.0f, 1.0f, 1.0f);
 		//                              x     y     scale
-        gltDrawText2DAligned(text1, 115.0f, 60.0f, 1.0f,
+        gltDrawText2DAligned(text1, 120.0f, 60.0f, 1.0f,
                             GLT_CENTER, GLT_CENTER);
 
         gltDrawText2DAligned(text2, 300.0f, 60.0f, 1.0f,

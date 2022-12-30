@@ -13,13 +13,20 @@ var theta  = 0.0;
 //// ortográfica inicializando las variables left, right, 
 //// bottom, ytop, near, far con las escalas correspondientes
 ////////////////////////////////////////////////////
-
+var left = -1.0;
+var right = 1.0;
+var bottom = -1.0;
+var ytop = 1.0;
+var near = -1.0;
+var far = 10.0;
 
 ////////////////////////////////////////////////////
 //// Declarar como variable var las matrices
 //// de visualización del modelo y de proyección.
 //// Por cada una incluir la referencia de indizado
 ////////////////////////////////////////////////////
+var modelViewMatrix, projectionMatrix;
+var modelViewMatrixLoc, projectionMatrixLoc;
 
 
 var fColor;
@@ -53,10 +60,11 @@ window.onload = function init() {
     m[3][3] = 0;
     m[3][1] = -1/light[1];
 
-    
+
+    // Los edité
     at = vec3(0.0, 0.0, 0.0);
-    up = vec3(0.0, 1.0, 0.0);
-    eye = vec3(1.0, 1.0, 1.0);
+    up = vec3(0.0, -0.5, 0.0);
+    eye = vec3(0.5, 0.5, 1.0);
     
     // color square red and shadow black
     
@@ -75,7 +83,8 @@ window.onload = function init() {
     //// en el programa para poder inicializar los 
     //// atributos del buffer.
     ////////////////////////////////////////////////////
-  
+    var program = initShaders(gl, "vertex-shader", "fragment-shader");
+    gl.useProgram( program );
 
     var vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
@@ -91,14 +100,15 @@ window.onload = function init() {
     //// Asignar la ubicación de los índices de las matrices 
     //// de vista y de proyección usando gl.getUniformLocation
     ////////////////////////////////////////////////////
- 
+    modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
+    projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
 
  
     ////////////////////////////////////////////////////
     //// Proyectar la vista ortogonal utilizando 
     //// projectionMatrix = ortho(...
     ////////////////////////////////////////////////////
-
+    projectionMatrix = ortho(left, right, ytop, bottom, near, far);
 
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
         
@@ -108,7 +118,6 @@ window.onload = function init() {
 
 
 var render = function() {
-
         theta += 0.05;
         if(theta > 2*Math.PI) theta -= 2*Math.PI;
         

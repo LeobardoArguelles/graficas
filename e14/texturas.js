@@ -42,7 +42,7 @@ function createBox() {
   elements = new THREE.Object3D();
 
   //Create a geometry for a cube
-  geometry = new THREE.BoxGeometry(200, 200, 200);
+  geometry = new THREE.BoxGeometry(100, 100, 100);
 
   //Create a Texture Loader object
   var loader = new THREE.TextureLoader();
@@ -60,7 +60,7 @@ function createBox() {
   });
   box1 = new THREE.Mesh(geometry, material);
   box1.rotation.z = Math.PI / 8;
-  box1.position.x = -340;
+  box1.position.x = -320;
                         
   //Add it into our group
   elements.add(box1);
@@ -75,9 +75,16 @@ function createBox() {
   });
   box2 = new THREE.Mesh(geometry, material);
   box2.rotation.z = Math.PI / 8;
-  box2.position.x = 100;
+  box2.position.x = -100;
   elements.add(box2);
- 
+
+  material = new THREE.MeshPhongMaterial({
+      map: texture
+    });
+  box3 = new THREE.Mesh(geometry, material);
+  box3.rotation.z = Math.PI / 8;
+  box3.position.x = 100;
+  elements.add(box3);
 
 
   ////-------------------------
@@ -100,6 +107,7 @@ var animate = function(a) {
   requestAnimationFrame(animate);
   box1.rotation.y += .01;
   box2.rotation.y += .01;
+  box3.rotation.y += .01;
 
 
   var frameTime = Date.now();

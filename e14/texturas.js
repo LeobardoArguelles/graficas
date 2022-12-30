@@ -1,3 +1,4 @@
+import * as THREE from './node_modules/three/build/three.module.js';
 ////-------------------------
 //// Cambiar la imagen de textura usando var teximage
 ////
@@ -6,6 +7,14 @@
 
 var ww = window.innerWidth,
   wh = window.innerHeight;
+
+var renderer, camera, light, elements, geometry, material;
+var box1, box2, box3;
+var previousTime;
+var sprite;
+
+var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
 
 function init() {
 
@@ -41,16 +50,22 @@ function createBox() {
   //Create a Texture Loader object
   var loader = new THREE.TextureLoader();
   loader.crossOrigin = 'anonymous';
-  var texture = loader.load(texImage);
+  var texture = loader.load("textura.jpg");
 
+  diffuseProduct = mult(lightDiffuse, materialDiffuse);
 
   ////-------------------------
   //// Crear Box #1 cambiando la  
   //// imagen de textura.  
   //// Incluir iluminacion difusa
   ////-------------------------
-
-
+  material = new THREE.MeshLambertMaterial({
+    map: texture
+  });
+  box1 = new THREE.Mesh(geometry, material);
+  box1.rotation.z = Math.PI / 8;
+  box1.position.x = -340;
+                        
   //Add it into our group
   elements.add(box1);
 
@@ -58,6 +73,14 @@ function createBox() {
   //// Crear Box #2 agregando color 
   //// en la función de textura
   ////-------------------------
+  material = new THREE.MeshLambertMaterial({
+    map: texture,
+    color: 0xD8362A
+  });
+  box2 = new THREE.Mesh(geometry, material);
+  box2.rotation.z = Math.PI / 8;
+  box2.position.x = 100;
+  elements.add(box2);
  
 
 
@@ -78,6 +101,7 @@ var animate = function(a) {
 
   requestAnimationFrame(animate);
   box1.rotation.y += .01;
+  box2.rotation.y += .01;
 
 
   var frameTime = Date.now();

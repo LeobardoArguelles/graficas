@@ -13,9 +13,6 @@ var box1, box2, box3;
 var previousTime;
 var sprite;
 
-var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-
 function init() {
 
   renderer = new THREE.WebGLRenderer({
@@ -50,9 +47,8 @@ function createBox() {
   //Create a Texture Loader object
   var loader = new THREE.TextureLoader();
   loader.crossOrigin = 'anonymous';
-  var texture = loader.load("textura.jpg");
+  var texture = loader.load("texture.jpg");
 
-  diffuseProduct = mult(lightDiffuse, materialDiffuse);
 
   ////-------------------------
   //// Crear Box #1 cambiando la  
@@ -91,6 +87,8 @@ function createBox() {
   ////------------------------- 
 
 
+  const light = new THREE.AmbientLight( 0x404040 );
+  scene.add( light );
   scene.add(elements);
 
 };

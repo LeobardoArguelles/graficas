@@ -93,6 +93,8 @@ function divideTriangle(a, b, c, count) {
 
 
 function tetrahedron(a, b, c, d, n) {
+    pointsArray = [];
+    normalsArray = [];
     divideTriangle(a, b, c, n);
     divideTriangle(d, c, b, n);
     divideTriangle(a, d, b, n);
@@ -149,8 +151,17 @@ window.onload = function init() {
     //// Se recomienda que el radio este en un rango de 0.5 a 2.0. 
     //// Usar radianes para los incrementos de los angulos.
     //// ---------------------------
+    document.getElementById("radiusSlider").onchange = function() {
+       radius = event.srcElement.value;
+    };
 
+    document.getElementById("thetaSlider").onchange = function() {
+        theta = dr * 36 * event.srcElement.value;
+    };
 
+    document.getElementById("phiSlider").onchange = function() {
+        phi = dr * 36 * event.srcElement.value;
+    };
     //// ---------------------------    
     //// Crear controles para incrementar y decrementar subdivisiones. 
     //// Dentro de la funcion del control (ya sea de boton o un slider)
@@ -158,18 +169,32 @@ window.onload = function init() {
     //// puntos y normales del arreglo
     //// ---------------------------
 
+    document.getElementById("subdivsSlider").onchange = function() {
+        numTimesToSubdivide = event.srcElement.value;
+        index = 0;
+        tetrahedron(va, vb, vc, vd, numTimesToSubdivide);
+        gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer);
+        gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
+        gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    };
 
     //// ---------------------------
     //// Crear controles de intensidad de iluminacion. 
     //// Utilizar los cuatro componentes para generar la iluminacion
     //// en el programa: iluminación ambiental, difusa y especular
     //// ---------------------------
+    gl.uniform4fv( gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
 
 
     //// ---------------------------
     //// Tener en cuenta la posicion de la fuente de iluminacion 
     //// y el material de la superficie de la esfera	
     //// ---------------------------
+    gl.uniform4fv( gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
+    gl.uniform1f( gl.getUniformLocation(program, "shininess"), materialShininess );
 
 
     render();
@@ -184,7 +209,9 @@ function render() {
     //// La funcion render depende del radio de incidencia de luz
     //// y de los angulos theta y phi de la fuente de iluminacion.
     //// ---------------------------
-
+    eye = vec3(radius*Math.sin(theta)*Math.cos(phi),
+               radius*Math.sin(theta)*Math.sin(phi),
+               radius*Math.cos(theta));
     modelViewMatrix = lookAt(eye, at , up);
     projectionMatrix = ortho(left, right, bottom, ytop, near, far);
     normalMatrix = [

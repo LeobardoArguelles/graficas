@@ -10,7 +10,8 @@ uniform mat4 projectionMatrix;
 
 void main() 
 {
-    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+    // gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+    gl_Position = vPosition;
 } 
 </script>
 
@@ -20,7 +21,7 @@ precision mediump float;
 
 void main()
 {
-    gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
 
 }
 </script>
@@ -30,7 +31,8 @@ void main()
 <script type="text/javascript" src="webgl-utils.js"></script>
 <script type="text/javascript" src="initShaders.js"></script>
 <script type="text/javascript" src="MV.js"></script>
-<script type="text/javascript" src="humanoide.js"></script>
+<script type="text/javascript" src="cylinder.js"></script>
+<!-- <script type="text/javascript" src="humanoide.js"></script> -->
 
 <div id="slider0">
 torso angle -180 <input id="slide" type="range"

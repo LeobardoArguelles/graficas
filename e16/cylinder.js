@@ -16,18 +16,61 @@ function cylinder (r = 0.5, height = 0.5, divisions = 4) {
     var degrees = 2*Math.PI / divisions
     var cos = Math.cos
     var sin = Math.sin
+    var counter = 0;
 
     for (let i = 0; i < divisions; i++) {
         var theta = degrees*i;
-        console.log(cos(theta));
-        pointsArray.push(r*cos(theta));
-        pointsArray.push(r*sin(theta));
-        pointsArray.push(0.0);
-        indices.push(i);
+
+        // TODO: Corregir, sólo funciona con division = 4
+        if (counter == 0) {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(-0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+            indices.push(counter++);
+        }
+        else if (counter == 2) {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(-0.5);
+            pointsArray.push(r*sin(theta));
+
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+            indices.push(counter++);
+        }
+        else if (counter < 5) {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+        }
+        else {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(-0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+            indices.push(counter++);
+        }
+
     }
 }
 
 window.onload = function init() {
+    const divisions = 4;
 
     canvas = document.getElementById( "gl-canvas" );
 
@@ -43,18 +86,23 @@ window.onload = function init() {
 
     gl.useProgram( program);
 
-    // instanceMatrix = mat4();
+    modelViewMatrix = mat4();
+    console.log(modelViewMatrix);
+    modelViewMatrix = mult(modelViewMatrix, rotate(10, 1, 0, 0));
+    projectionMatrix = ortho(-1.0,1.0,-1.0, 1.0,-1.0,1.0);
 
-    // projectionMatrix = ortho(-10.0,10.0,-10.0, 10.0,-10.0,10.0);
-    // modelViewMatrix = mat4();
+    // TODO: Construir el resto del cilindro
+    // TODO: Sustituir poligonos cuadrados por cilindros en humanoide.js
+    // TODO: Agregar esferas en las articulaciones en humanoide.js
+    // TODO: Crear animaciones
 
 
-    // gl.uniformMatrix4fv(gl.getUniformLocation( program, "modelViewMatrix"), false, flatten(modelViewMatrix) );
-    // gl.uniformMatrix4fv( gl.getUniformLocation( program, "projectionMatrix"), false, flatten(projectionMatrix) );
+    gl.uniformMatrix4fv(gl.getUniformLocation( program, "modelViewMatrix"), false, flatten(modelViewMatrix) );
+    gl.uniformMatrix4fv( gl.getUniformLocation( program, "projectionMatrix"), false, flatten(projectionMatrix) );
 
-    // modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
+    modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
 
-    cylinder(0.5, 0.5, 20);
+    cylinder(0.5, 0.5, divisions);
 
     vBuffer = gl.createBuffer();
 
@@ -69,9 +117,6 @@ window.onload = function init() {
     gl.bindBuffer( gl.ELEMENT_ARRAY_BUFFER, idxBuffer );
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
-
-    console.log(pointsArray);
-    console.log(indices);
     gl.clear( gl.COLOR_BUFFER_BIT );
     gl.drawElements(gl.TRIANGLE_FAN, indices.length, gl.UNSIGNED_SHORT, 0);
 }

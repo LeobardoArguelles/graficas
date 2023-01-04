@@ -12,16 +12,19 @@ function quad(a, b, c, d) {
      pointsArray.push(vertices[d]);
 }
 
-function cylinder (radius = 0.5, height = 0.5, divisions = 4) {
-    pointsArray = [
-        -0.5, 0.5,
-        0.5, -0.5,
-        0.5, 0.5,
-        -0.5, -0.5
-    ];
-    indices = [
-        0, 2, 1, 0, 1, 3
-    ];
+function cylinder (r = 0.5, height = 0.5, divisions = 4) {
+    var degrees = 2*Math.PI / divisions
+    var cos = Math.cos
+    var sin = Math.sin
+
+    for (let i = 0; i < divisions; i++) {
+        var theta = degrees*i;
+        console.log(cos(theta));
+        pointsArray.push(r*cos(theta));
+        pointsArray.push(r*sin(theta));
+        pointsArray.push(0.0);
+        indices.push(i);
+    }
 }
 
 window.onload = function init() {
@@ -51,7 +54,7 @@ window.onload = function init() {
 
     // modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
 
-    cylinder();
+    cylinder(0.5, 0.5, 20);
 
     vBuffer = gl.createBuffer();
 
@@ -59,7 +62,7 @@ window.onload = function init() {
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
 
     var vPosition = gl.getAttribLocation( program, "vPosition" );
-    gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
+    gl.vertexAttribPointer( vPosition, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
     idxBuffer = gl.createBuffer();
@@ -67,7 +70,8 @@ window.onload = function init() {
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
 
+    console.log(pointsArray);
+    console.log(indices);
     gl.clear( gl.COLOR_BUFFER_BIT );
-    // gl.drawArrays(gl.TRIANGLES, 0, 3);
-    gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
+    gl.drawElements(gl.TRIANGLE_FAN, indices.length, gl.UNSIGNED_SHORT, 0);
 }

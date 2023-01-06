@@ -22,6 +22,9 @@ var vertices = [
     vec4( 0.5, -0.5, -0.5, 1.0 )
 ];
 
+var turning = false;
+var running = false;
+var resetting = false;
 
 var torsoId = 0;
 var headId  = 1;
@@ -55,6 +58,7 @@ var numAngles = 11;
 var angle = 0;
 
 var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0];
+var starting_theta = theta.slice();
 
 var numVertices = 24;
 
@@ -276,62 +280,62 @@ function quad(a, b, c, d) {
      pointsArray.push(vertices[d]);    
 }
 
-function cylinder (r = 0.5, height = 0.5, divisions = 4) {
-    var degrees = 2*Math.PI / divisions
-    var cos = Math.cos
-    var sin = Math.sin
-    var counter = 0;
+// function cylinder (r = 0.5, height = 0.5, divisions = 4) {
+//     var degrees = 2*Math.PI / divisions
+//     var cos = Math.cos
+//     var sin = Math.sin
+//     var counter = 0;
 
-    for (let i = 0; i < divisions; i++) {
-        var theta = degrees*i;
+//     for (let i = 0; i < divisions; i++) {
+//         var theta = degrees*i;
 
-        // TODO: Corregir, sólo funciona con division = 4
-        if (counter == 0) {
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(0.5);
-            pointsArray.push(r*sin(theta));
+//         // TODO: Corregir, sólo funciona con division = 4
+//         if (counter == 0) {
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(0.5);
+//             pointsArray.push(r*sin(theta));
 
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(-0.5);
-            pointsArray.push(r*sin(theta));
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(-0.5);
+//             pointsArray.push(r*sin(theta));
 
-            indices.push(counter++);
-            indices.push(counter++);
-        }
-        else if (counter == 2) {
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(-0.5);
-            pointsArray.push(r*sin(theta));
+//             indices.push(counter++);
+//             indices.push(counter++);
+//         }
+//         else if (counter == 2) {
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(-0.5);
+//             pointsArray.push(r*sin(theta));
 
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(0.5);
-            pointsArray.push(r*sin(theta));
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(0.5);
+//             pointsArray.push(r*sin(theta));
 
-            indices.push(counter++);
-            indices.push(counter++);
-        }
-        else if (counter < 5) {
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(0.5);
-            pointsArray.push(r*sin(theta));
+//             indices.push(counter++);
+//             indices.push(counter++);
+//         }
+//         else if (counter < 5) {
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(0.5);
+//             pointsArray.push(r*sin(theta));
 
-            indices.push(counter++);
-        }
-        else {
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(0.5);
-            pointsArray.push(r*sin(theta));
+//             indices.push(counter++);
+//         }
+//         else {
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(0.5);
+//             pointsArray.push(r*sin(theta));
 
-            pointsArray.push(r*cos(theta));
-            pointsArray.push(-0.5);
-            pointsArray.push(r*sin(theta));
+//             pointsArray.push(r*cos(theta));
+//             pointsArray.push(-0.5);
+//             pointsArray.push(r*sin(theta));
 
-            indices.push(counter++);
-            indices.push(counter++);
-        }
+//             indices.push(counter++);
+//             indices.push(counter++);
+//         }
 
-    }
-}
+//     }
+// }
 
 
 
@@ -386,61 +390,126 @@ window.onload = function init() {
     gl.enableVertexAttribArray( vPosition );
     
         document.getElementById("slider0").onchange = function() {
-        theta[torsoId ] = event.srcElement.value;
+        theta[torsoId ] = parseInt(event.srcElement.value);
         initNodes(torsoId);
     };
         document.getElementById("slider1").onchange = function() {
-        theta[head1Id] = event.srcElement.value;
+        theta[head1Id] = parseInt(event.srcElement.value);
         initNodes(head1Id);
     };
 
     document.getElementById("slider2").onchange = function() {
-         theta[leftUpperArmId] = event.srcElement.value;
+         theta[leftUpperArmId] = parseInt(event.srcElement.value);
          initNodes(leftUpperArmId);
     };
     document.getElementById("slider3").onchange = function() {
-         theta[leftLowerArmId] =  event.srcElement.value;
+         theta[leftLowerArmId] =  parseInt(event.srcElement.value);
          initNodes(leftLowerArmId);
     };
      
         document.getElementById("slider4").onchange = function() {
-        theta[rightUpperArmId] = event.srcElement.value;
+        theta[rightUpperArmId] = parseInt(event.srcElement.value);
         initNodes(rightUpperArmId);
     };
     document.getElementById("slider5").onchange = function() {
-         theta[rightLowerArmId] =  event.srcElement.value;
+         theta[rightLowerArmId] =  parseInt(event.srcElement.value);
          initNodes(rightLowerArmId);
     };
         document.getElementById("slider6").onchange = function() {
-        theta[leftUpperLegId] = event.srcElement.value;
+        theta[leftUpperLegId] = parseInt(event.srcElement.value);
         initNodes(leftUpperLegId);
     };
     document.getElementById("slider7").onchange = function() {
-         theta[leftLowerLegId] = event.srcElement.value;
+         theta[leftLowerLegId] = parseInt(event.srcElement.value);
          initNodes(leftLowerLegId);
     };
     document.getElementById("slider8").onchange = function() {
-         theta[rightUpperLegId] =  event.srcElement.value;
+         theta[rightUpperLegId] =  parseInt(event.srcElement.value);
          initNodes(rightUpperLegId);
     };
         document.getElementById("slider9").onchange = function() {
-        theta[rightLowerLegId] = event.srcElement.value;
+        theta[rightLowerLegId] = parseInt(event.srcElement.value);
         initNodes(rightLowerLegId);
     };
     document.getElementById("slider10").onchange = function() {
-         theta[head2Id] = event.srcElement.value;
+         theta[head2Id] = parseInt(event.srcElement.value);
          initNodes(head2Id);
     };
+    document.getElementById("rotate-btn").onclick = startTurning;
+    document.getElementById("run-btn").onclick = startRunning;
 
     for(i=0; i<numNodes; i++) initNodes(i);
     
     render();
 }
 
-
 var render = function() {
 
         gl.clear( gl.COLOR_BUFFER_BIT );
         traverse(torsoId);
         requestAnimFrame(render);
+}
+
+// ANIMACIONES
+function startTurning() {
+    if (turning) resetting = true;
+    turning = !turning;
+    turn();
+    if (resetting) {
+        reset();
+    }
+}
+
+function startRunning() {
+    running = !running;
+    run();
+}
+
+async function reset() {
+    var done = new Array(theta.length).fill(false);
+    console.log("resetting");
+    while (!done.every(el => el === true)) {
+        for (var i = 0; i < theta.length; i++) {
+            if (!done[i] && starting_theta[i] != theta[i]) {
+                if (starting_theta[i] < theta[i]) {
+                    theta[i] += -1;
+                }
+                else {
+                    theta[i] += 1;
+                }
+                initNodes(i);
+                traverse(torsoId);
+                if (!resetting) break;
+            }
+            else done[i] = true;
+        }
+        await sleep(1);
+    }
+    resetting = false;
+    console.log("done");
+    for (var i = 0; i < theta.length; i++) {
+        console.log(theta[i]);
+    }
+}
+
+async function run() {
+    if (running) {
+
+    }
+    else {}
+}
+
+async function turn() {
+    if (turning) {
+        resetting = false;
+        if (theta[torsoId] >= 360) theta[torsoId] = 0;
+        theta[torsoId] += 5;
+        initNodes(torsoId);
+        await sleep(10);
+        turn();
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

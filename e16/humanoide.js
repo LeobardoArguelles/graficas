@@ -276,6 +276,64 @@ function quad(a, b, c, d) {
      pointsArray.push(vertices[d]);    
 }
 
+function cylinder (r = 0.5, height = 0.5, divisions = 4) {
+    var degrees = 2*Math.PI / divisions
+    var cos = Math.cos
+    var sin = Math.sin
+    var counter = 0;
+
+    for (let i = 0; i < divisions; i++) {
+        var theta = degrees*i;
+
+        // TODO: Corregir, sólo funciona con division = 4
+        if (counter == 0) {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(-0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+            indices.push(counter++);
+        }
+        else if (counter == 2) {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(-0.5);
+            pointsArray.push(r*sin(theta));
+
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+            indices.push(counter++);
+        }
+        else if (counter < 5) {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+        }
+        else {
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(0.5);
+            pointsArray.push(r*sin(theta));
+
+            pointsArray.push(r*cos(theta));
+            pointsArray.push(-0.5);
+            pointsArray.push(r*sin(theta));
+
+            indices.push(counter++);
+            indices.push(counter++);
+        }
+
+    }
+}
+
+
 
 function cube()
 {
@@ -381,6 +439,7 @@ window.onload = function init() {
 
 
 var render = function() {
+
         gl.clear( gl.COLOR_BUFFER_BIT );
         traverse(torsoId);
         requestAnimFrame(render);

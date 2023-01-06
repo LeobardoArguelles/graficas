@@ -455,14 +455,19 @@ function startTurning() {
     if (turning) resetting = true;
     turning = !turning;
     turn();
-    if (resetting) {
-        reset();
-    }
+    // if (resetting) {
+    //     reset();
+    // }
 }
 
-function startRunning() {
+async function startRunning() {
+    if (running) resetting = true;
     running = !running;
-    run();
+    // await ready();
+    if (running) {
+        await getSet();
+        run();
+    }
 }
 
 async function reset() {
@@ -470,12 +475,16 @@ async function reset() {
     while (!done.every(el => el === true)) {
         for (var i = 0; i < theta.length; i++) {
             if (!done[i] && starting_theta[i] != theta[i]) {
-                if (starting_theta[i] < theta[i]) {
+                var target_val = starting_theta[i]
+                var theta_val = theta[i]
+                if (( target_val - theta_val ) < 0) {
                     theta[i] -= 1;
                 }
                 else {
                     theta[i] += 1;
                 }
+
+                console.log(i + ": " + theta[i] + " || " + starting_theta[i]);
                 initNodes(i);
                 traverse(torsoId);
                 if (!resetting) break;
@@ -490,9 +499,8 @@ async function reset() {
 var ready = reset;
 
 async function getSet() {
-    console.log("preparando");
-    var done = new Array(theta.length).fill(false);
-    var target = [140, 120, -70, -140, 80, -170, 60, 150, 70]
+    var target = [140, 180, -70, 220, -70, 190, 60, 150, 70]
+    var done = new Array(target.length).fill(false);
     var idxs = [0]
     for (var i = 2; i <= 9; i++) {
         idxs.push(i);
@@ -502,7 +510,62 @@ async function getSet() {
         for (var i = 0; i < target.length; i++) {
             var idx = idxs[i];
             if (!done[i] && target[i] != theta[idx]) {
-                if (target[i] < theta[idx]) {
+                var target_val = target[i]
+                var theta_val = theta[idx]
+                if (target_val - theta_val <= 0) {
+                    theta[idx] -= 1;
+                }
+                else {
+                    theta[idx] += 1;
+                }
+                initNodes(idx);
+            }
+            else done[i] = true;
+        }
+        await sleep(1);
+    }
+}
+
+async function moveArms(direction = 0) {
+    var targets = [[140, 180, 150, 190], [180, 140, 190, 150]]
+    var target = targets[direction]
+    var done = new Array(target.length).fill(false);
+    var idxs = [2, 4, 6, 8]
+
+    while (!done.every(el => el === true)) {
+        for (var i = 0; i < target.length; i++) {
+            var idx = idxs[i];
+            if (!done[i] && target[i] != theta[idx]) {
+                var target_val = target[i]
+                var theta_val = theta[idx]
+                if (target_val - theta_val <= 0) {
+                    theta[idx] -= 1;
+                }
+                else {
+                    theta[idx] += 1;
+                }
+                initNodes(idx);
+            }
+            else done[i] = true;
+        }
+        await sleep(1);
+    }
+    return (direction == 1 ? 0 : 1)
+}
+
+async function moveLegs(direction = 0) {
+    var targets = [[150, 190], [190, 150]]
+    var target = targets[direction]
+    var done = new Array(target.length).fill(false);
+    var idxs = [2, 4]
+
+    while (!done.every(el => el === true)) {
+        for (var i = 0; i < target.length; i++) {
+            var idx = idxs[i];
+            if (!done[i] && target[i] != theta[idx]) {
+                var target_val = target[i]
+                var theta_val = theta[idx]
+                if (target_val - theta_val <= 0) {
                     theta[idx] -= 1;
                 }
                 else {
@@ -515,14 +578,15 @@ async function getSet() {
         }
         await sleep(1);
     }
+    return (direction == 1 ? 0 : 1)
 }
 
-async function run() {
+async function run(direction = 0) {
     if (running) {
-        ready();
-        getSet();
+        direction = await moveArms(direction);
+        // moveLegs();
+        run(direction);
     }
-    else {}
 }
 
 async function turn() {

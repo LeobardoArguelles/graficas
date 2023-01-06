@@ -466,13 +466,13 @@ function startRunning() {
 }
 
 async function reset() {
+    console.log("reset");
     var done = new Array(theta.length).fill(false);
-    console.log("resetting");
     while (!done.every(el => el === true)) {
         for (var i = 0; i < theta.length; i++) {
             if (!done[i] && starting_theta[i] != theta[i]) {
                 if (starting_theta[i] < theta[i]) {
-                    theta[i] += -1;
+                    theta[i] -= 1;
                 }
                 else {
                     theta[i] += 1;
@@ -486,15 +486,24 @@ async function reset() {
         await sleep(1);
     }
     resetting = false;
-    console.log("done");
-    for (var i = 0; i < theta.length; i++) {
-        console.log(theta[i]);
-    }
+}
+
+var ready = reset;
+
+async function getSet() {
+    // 4: -80
+    // 5: -140
+    // 6: 70
+    // 7: 160
+    // 8: -40
+    // 9: -150
+    // 10: -60
 }
 
 async function run() {
     if (running) {
-
+        ready();
+        getSet();
     }
     else {}
 }

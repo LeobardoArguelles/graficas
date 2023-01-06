@@ -466,7 +466,6 @@ function startRunning() {
 }
 
 async function reset() {
-    console.log("reset");
     var done = new Array(theta.length).fill(false);
     while (!done.every(el => el === true)) {
         for (var i = 0; i < theta.length; i++) {
@@ -491,13 +490,31 @@ async function reset() {
 var ready = reset;
 
 async function getSet() {
-    // 4: -80
-    // 5: -140
-    // 6: 70
-    // 7: 160
-    // 8: -40
-    // 9: -150
-    // 10: -60
+    console.log("preparando");
+    var done = new Array(theta.length).fill(false);
+    var target = [140, 120, -70, -140, 80, -170, 60, 150, 70]
+    var idxs = [0]
+    for (var i = 2; i <= 9; i++) {
+        idxs.push(i);
+    }
+
+    while (!done.every(el => el === true)) {
+        for (var i = 0; i < target.length; i++) {
+            var idx = idxs[i];
+            if (!done[i] && target[i] != theta[idx]) {
+                if (target[i] < theta[idx]) {
+                    theta[idx] -= 1;
+                }
+                else {
+                    theta[idx] += 1;
+                }
+                initNodes(idx);
+                traverse(torsoId);
+            }
+            else done[i] = true;
+        }
+        await sleep(1);
+    }
 }
 
 async function run() {

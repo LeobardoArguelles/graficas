@@ -1,18 +1,6 @@
 
 <html>
 
-
-<button id = "Button1">More Particles</button> 
-<button id = "Button2">Fewer Particles</button>  <p></p>
-<button id = "Button3">Faster</button> 
-<button id = "Button4">Slower</button> <p></p>
-<button id = "Button5">Larger Particles</button> 
-<button id = "Button6">Smaller Particles</button> <p></p>
-<button id = "Button7">Toggle Gravity</button> <p></p>
-<button id = "Button8">Toggle Resitution</button> <p></p>
-<button id = "Button9">Toggle Repulsion</button>  <p></p> <p></p>
-
-
 <script id="vertex-shader" type="x-shader/x-vertex">
 
 attribute  vec4 vPosition;
@@ -50,7 +38,22 @@ main()
 <script type="text/javascript" src="particulas.js"></script>
 
 
-<body>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body, class="center flex-column">
+    <div class="grid">
+        <button id = "Button1">More Particles</button>
+        <button id = "Button2">Fewer Particles</button>
+        <button id = "Button3">Faster</button>
+        <button id = "Button4">Slower</button>
+        <button id = "Button5">Larger Particles</button>
+        <button id = "Button6">Smaller Particles</button>
+        <button id = "Button7">Toggle Gravity</button>
+        <button id = "Button8">Toggle Resitution</button>
+        <button id = "Button9">Toggle Repulsion</button>
+    </div>
+
 <canvas id="gl-canvas" width="512" height="512">
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>

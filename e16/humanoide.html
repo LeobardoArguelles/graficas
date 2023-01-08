@@ -33,6 +33,12 @@ void main()
 <script type="text/javascript" src="MV.js"></script>
 <script type="text/javascript" src="humanoide.js"></script>
 
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="center flex-column">
+  <div>
+
 <div id="slider0">
 torso angle -180 <input id="0slide" type="range"
  min="-180" max="180" step="10" value="0"
@@ -102,6 +108,8 @@ right lower leg angle -180 <input id="9slide" type="range"
   />
  180
 </div><br/>
+  </div>
+  <div class="flex-row">
 
 <div>
   <button id="rotate-btn">Rotar</button>
@@ -111,8 +119,7 @@ right lower leg angle -180 <input id="9slide" type="range"
   <button id="run-btn">Correr</button>
 </div><br/>
 
-
-<body>
+  </div>
 <canvas id="gl-canvas" width="512"" height="512"
 Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>

@@ -51,9 +51,9 @@ int main() {
 	glBindVertexArray(VertexArrayID);
 
 	static const GLfloat g_vertex_buffer_data[] = {
-	-1.0f, -1.0f, 0.0f,
-	-1.0f, 1.00f, 0.0f,
-	1.0f, 1.0f, 0.0f,
+	-0.5f, -0.5f, 0.0f,
+	0.5f, -0.5f, 0.0f,
+	0.0f, 0.5f, 0.0f,
 	};
 
 	static const GLfloat g_color_buffer_data[] = {
